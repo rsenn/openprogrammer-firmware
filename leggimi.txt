@@ -1,0 +1,15 @@
+Firmware per il progetto Open Programmer,
+programmatore USB per microcontrollori PIC, ATMEL, memorie I2C, dispositivi I2C e SPI.
+Sito web http://openprog.altervista.org/
+Questo progetto si appoggia sul firmware USB di Alexander Enzmann.
+Tutte le funzioni sono contenute nel file OPcontrol.c, rilasciato sotto licenza GPL2
+
+Cambiamenti:
+
+V 0.3.0	luglio 2008:	prima versione pubblica, supporta il protocollo ICSP (PIC10,12,16,18).
+V 0.4.0	agosto 2008: 	aggiunto protocollo I2C.
+V 0.5.0	novembre 2008: 	aggiunto protocollo SPI e istruzioni specifiche per micro ATMEL AVR.
+V 0.6.0	giugno 2009: 	nuovo firmware USB GPL, aggiunte istruzioni per PIC24 e microwire.
+V 0.6.1	agosto 2009:	protocollo SPI software, corregge alcuni bachi della periferica hardware.
+V 0.7.0	gennaio 2010:	aggiunte istruzioni PIC 24F, ID hardware.
+V 0.7.6	luglio 2010:	modifica TX16 e RX16 con periodo clock variabile; aggiustamento per ADC a 12 bit.
