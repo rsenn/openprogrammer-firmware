@@ -13,3 +13,5 @@ V 0.6.0	june 2009:  	switched to GPL USB framework, added instructions for PIC24
 V 0.6.1	august 2009:	switched to software SPI due to some bugs in the hardware peripheral.
 V 0.7.0	january 2010:	added some PIC24 instructions, hardware ID.
 V 0.7.6	july 2010:  	modified TX16 and RX16 with variable clock period; fix for 12 bit ADC.
+V 0.8.0	june 2012: 		added one-wire and UNIO protocols; tx buffer sent automatically when rx is 
+						elaborated; fixed PROG_C.

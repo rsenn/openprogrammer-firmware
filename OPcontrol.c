@@ -1,7 +1,7 @@
 /*********************************************************************
  * OPcontrol - control firmare for the Open Programmer
  * for more info see: openprog.altervista.org
- * Copyright (C) 2009-2010 Alberto Maccioni
+ * Copyright (C) 2009-2012 Alberto Maccioni
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,6 +29,7 @@ History
 0.6.1 - 30/8/09 added software SPI
 0.7.0 - 31/12/09 added and modified PIC24 instructions
 0.7.6 - 1/7/10 modified TX16 & RX16 instructions, conditional code to use 12 bit ADC on 18F2553
+0.8.0 - 30/6/12 added One Wire support, auto-flush tx buffer when rx all processed, fixed PROG_C
 *********************************************************************
 Map of peripherals
 
@@ -70,10 +71,10 @@ software SPI
 #include "instructions.h"
 
 //********Misc.********
-#define VERSION "0.7.6"
+#define VERSION "0.8.0"
 #define VER2	0
-#define VER1	7
-#define VER0	6
+#define VER1	8
+#define VER0	0
 #define ID2	0
 #define ID1	0
 #define TX_TEMP_MAX 10
@@ -135,6 +136,7 @@ software SPI
 #define A0			LATBbits.LATB3
 #define SCL			LATBbits.LATB1
 #define SDA			LATBbits.LATB0
+#define SDA_p		PORTBbits.RB0
 #define A2_dir		TRISBbits.TRISB5
 #define A1_dir		TRISBbits.TRISB4
 #define A0_dir		TRISBbits.TRISB3
@@ -181,7 +183,7 @@ software SPI
 #pragma romdata eedata=0xF00000
 rom char eestr[]="Open Programmer v. ";
 rom char eestr2[]=VERSION;
-rom char eestr3[]=" - Copyright (C) 2009 Alberto Maccioni - This is free software";
+rom char eestr3[]=" - Copyright (C) 2009-2012 Alberto Maccioni - This is free software";
 #endif
 
 #pragma udata
@@ -213,6 +215,8 @@ near byte tt=0;
 void TXins(byte x);
 void ParseCommands(void);
 void BlinkStatus();
+void Delay2us(unsigned char delay);
+void Delay1us(unsigned char delay);
 #if defined(SW_I2C)
 void SWStopI2C( void );                // Generate bus stop condition
 void SWStartI2C( void );               // Generate bus start condition
@@ -306,6 +310,12 @@ void ProcessIO(void)
 		TXaux=0;
 	}
 	if(RXptr>=number_of_bytes_read){			//RXptr>max
+		if(TXptr){ 		//send report once if non empty when rx is all processed
+			for(;TXptr<HID_INPUT_REPORT_BYTES;TXptr++) transmit_buffer[TXptr]=0;
+			TXptr=0;
+			if(!(ep1Bi.Stat&UOWN)) HIDTxReport(transmit_buffer, HID_INPUT_REPORT_BYTES);
+			else IN_pending=1;
+		}
  		number_of_bytes_read = HIDRxReport(receive_buffer, HID_OUTPUT_REPORT_BYTES);
 		if (number_of_bytes_read) RXptr=0;
 	}
@@ -324,7 +334,7 @@ void ProcessIO(void)
 
 void ParseCommands(void)
 {
-	//total overhead between instructions is 25us (not counting DCDC control function)
+	//total overhead between instructions is 30us (not counting DCDC control function)
 	if (RXptr<number_of_bytes_read&&!IN_pending){
 		LED1=1;
 		switch(receive_buffer[RXptr]){
@@ -1182,13 +1192,13 @@ void ParseCommands(void)
 							Nop();
 						}
 						if(t==d){
-							i=j;
+							i=j+1;
 							j=0xff;
 						}
 					}
 					INTCONbits.GIE=1;
 					INTCONbits.GIE=0;
-					if(j==0xff){
+					if(j==0x100){
 						TXins(i);
 						for(j=i*N;j;j--){
 							D0();	//001000 BEGIN PROG
@@ -2648,6 +2658,311 @@ void ParseCommands(void)
 					receive_buffer[RXptr+1]=FLUSH;
 				}
 				break;
+			case OW_RESET:		//One-wire reset pulse
+				//Returns 1 if presence pulse is detected, otherwise 0
+				//Execution time: ~880us
+				TXins(OW_RESET);
+				INTCONbits.GIE=0;
+				SDA=1;
+				SDA_dir=0;	
+				Nop();
+				SDA=0;
+				Delay1us(250);	//250us
+				Delay1us(250);	//250us
+				SDA=1;		//active pull-up
+				Nop();
+				SDA_dir=1;	//hiZ
+				Delay1us(70);	//70us
+				if(SDA_p==0) TXins(1);	//1 if presence pulse
+				else TXins(0);
+				Delay1us(150);	//300us
+				Delay1us(150);	//300us
+				INTCONbits.GIE=1;
+				break;
+			case OW_WRITE:		//One-wire write N bytes (LSB first)
+				//Parameters: N + N data bytes
+				//Returns RX_ERR if N is too high
+				//Uses i,i2
+				//Execution time: 6us + N*576us
+				TXins(OW_WRITE);
+				i=receive_buffer[++RXptr];
+				if(RXptr+i<number_of_bytes_read){
+					byte k;
+					for(;i;i--){
+						i2=receive_buffer[++RXptr];
+						INTCONbits.GIE=0;
+						for(k=8;k>0;k--){
+							SDA=0;
+							SDA_dir=0;		//start pulse	
+							if(i2&1){		//write 1
+								Delay1us(4);	//4us
+								SDA=1;		//active pull-up
+								//Nop();
+								//SDA_dir=1;	//hiZ
+								Delay1us(66);	//66us
+							}
+							else{			//write 0
+								Delay1us(60);	//60us
+								SDA=1;		//active pull-up
+								//Nop();
+								//SDA_dir=1;	//hiZ
+								Delay1us(10);	//10us
+							}
+							i2=i2>>1;
+						}
+						INTCONbits.GIE=1;
+					}
+				}
+				else{
+					TXins(RX_ERR);
+					receive_buffer[RXptr+1]=FLUSH;
+				}
+				break;
+			case OW_READ:		//One-wire read N bytes (LSB first)
+				//Parameters: N
+				//Returns RX_ERR if N is too high
+				//Uses i,i2
+				//Execution time: 20us + N*582us
+				TXins(OW_READ);
+				i=receive_buffer[++RXptr];
+				if(RXptr<number_of_bytes_read&&TXptr+i<HID_INPUT_REPORT_BYTES){
+					byte k;
+					TXins(i);
+					for(;i;i--){
+						INTCONbits.GIE=0;
+						i2=0;
+						for(k=8;k>0;k--){
+							SDA=0;
+							SDA_dir=0;		//start pulse	
+							Delay1us(6);	//6us
+							SDA=1;		//active pull-up
+							Nop();
+							SDA_dir=1;	//hiZ
+							Delay1us(8);	//8us
+							i2=i2>>1;
+							if(SDA_p==1) i2+=0x80;
+							Delay1us(40);	//40us
+							SDA=1;		//active pull-up
+							SDA_dir=0;
+							Nop();
+							SDA_dir=1;	//hiZ
+							Delay1us(16);	//16us
+						}
+						TXins(i2);
+						INTCONbits.GIE=1;
+					}
+				}
+				else{
+					TXins(RX_ERR);
+					receive_buffer[RXptr+1]=FLUSH;
+				}
+				break;
+			case UNIO_STBY:		// UNI/O standby pulse
+				//Execution time: ~621us
+				TXins(UNIO_STBY);
+				INTCONbits.GIE=0;
+				SDA=0;
+				SDA_dir=0;	
+				Delay1us(10);	//10us
+				SDA=1;
+				Delay1us(250);	//250us
+				Delay1us(250);	//250us
+				Delay1us(110);	//110us
+				SDA_dir=1;	//hiZ
+				INTCONbits.GIE=1;
+				break;
+			case UNIO_COM:		//UNI/O communication cycle (write+read)
+				//Parameter1: N = bytes to write (MSB first)
+				//Parameter2: M = bytes to read afer write
+				//Parameter3: N bytes to write
+				//Returns RX_ERR if N or M is too high
+				//if N=0 no start header is transmitted
+				//Returns M + M bytes
+				//ACK_ERR is returned if slave does not acknowledge, then command ends
+				//Uses i,i2
+				//Execution time: 10us + (N+1+M)*210us
+				TXins(UNIO_COM);
+				i=receive_buffer[++RXptr];  //N
+				i2=receive_buffer[++RXptr]; //M
+				if(RXptr+i<number_of_bytes_read&&TXptr+i2<HID_INPUT_REPORT_BYTES){
+					byte k,dx;
+					INTCONbits.GIE=0;
+					if(i){
+						SDA=0;
+						SDA_dir=0;		//start pulse
+						Delay1us(20);	//20us
+						SDA=1;
+						Delay1us(10);	//10us
+						SDA=0;
+						Delay1us(20);	//20us
+						SDA=1;
+						Delay1us(20);	//20us
+						SDA=0;
+						Delay1us(20);	//20us
+						SDA=1;
+						Delay1us(20);	//20us
+						SDA=0;
+						Delay1us(20);	//20us
+						SDA=1;
+						Delay1us(20);	//20us
+						SDA=0;
+						Delay1us(20);	//20us
+						SDA=1;
+						Delay1us(10);	//10us
+						SDA=0;			//MAK
+						Delay1us(10);	//10us
+						SDA=1;
+						Delay1us(10);	//10us
+						SDA_dir=1;		//HZ
+						Delay1us(5);	//5us
+						k=0;
+						if(SDA_p==0) k=1;
+						Delay1us(10);	//10us
+						if(SDA_p==0) k=1;
+						Delay1us(2);
+						if(k){			//incorrect SAK
+							TXins(ACK_ERR);
+							i=i2=0;
+							RXptr+=i;
+						}
+					}
+					for(;i;i--){	//send N bytes (MSB first)
+						dx=receive_buffer[++RXptr];
+						SDA=0;
+						SDA_dir=0;		//out
+						for(k=8;k>0;k--){
+							if(dx&0x80){		//write 1
+								SDA=0;
+								Delay1us(10);	//10us
+								///Delay1us(5);	//5us
+								SDA=1;
+							}
+							else{			//write 0
+								SDA=1;
+								Delay1us(10);	//10us
+								SDA=0;
+							}
+							Delay1us(8);	//10us
+							dx=dx<<1;
+						}
+						if(i2||i>1){
+							SDA=0;			//MAK
+							Delay1us(10);	//10us
+							SDA=1;
+						}
+						else{
+							SDA=1;			//NoMAK
+							Delay1us(10);	//10us
+							SDA=0;
+						}
+						Delay1us(10);	//10us
+						SDA_dir=1;		//HZ
+						Delay1us(5);	//5us
+						k=0;
+						//if(SDA_p==0) k=1; //Debug!!!
+						if(SDA_p==1) k=1;
+						Delay1us(10);	//10us
+						if(SDA_p==0) k=1;
+						if(k){			//incorrect SAK
+							TXins(ACK_ERR);
+							i=1;
+							i2=0;
+							RXptr+=i;
+						}
+						if(i>1){
+							Nop();
+							Nop();
+							Nop();
+							Nop();
+							Nop();
+							Nop();
+							Nop();
+							Nop();
+							Nop();
+							Nop();
+							Nop();
+						}
+					}
+					Nop();
+					Nop();
+					Nop();
+					TXins(i2);
+					for(;i2;i2--){	//receive N bytes (MSB first)
+						dx=0;
+						SDA_dir=1;		//input
+						for(k=8;k>0;k--){
+							Delay1us(3); // 1/4 bit
+							dx=dx<<1;
+							if(SDA_p==0){
+								Delay1us(10);	//10us
+								if(SDA_p==1) dx+=1;
+								else dx+=0; //this is to keep constant timing
+							}
+							else{
+								Delay1us(10);	//10us
+								if(SDA_p==0) dx+=0;
+								else dx+=0; //this is to keep constant timing
+								Nop();
+								Nop();
+								Nop();
+								Nop();
+							}
+							Nop();
+							Nop();
+							Nop();
+							Nop();
+							Nop();
+							if(k>1) Delay1us(4);	//6us
+							else Delay1us(2);
+						}
+						Nop();
+						Nop();
+						Nop();
+						Nop();
+						Nop();
+						Nop();
+						SDA_dir=0;		//output
+						if(i2>1){
+							SDA=0;			//MAK
+							Delay1us(10);	//10us
+							SDA=1;
+						}
+						else{
+							SDA=1;			//NoMAK
+							Delay1us(10);	//10us
+							SDA=0;
+						}
+						TXins(dx);
+						Delay1us(7);	//10us
+						SDA_dir=1;		//HZ
+						Delay1us(5);	//5us
+						k=0;
+						//if(SDA_p==0) k=1; //Debug!!!
+						if(SDA_p==1) k=1;
+						Delay1us(10);	//10us
+						if(SDA_p==0) k=1;
+						Delay1us(3);	//3us
+						Nop();
+						Nop();
+						Nop();
+						Nop();
+						Nop();
+						Nop();
+						Nop();
+						Nop();
+						Nop();
+						if(k){			//incorrect SAK
+							TXins(ACK_ERR);
+							i2=1;
+						}
+					}
+					INTCONbits.GIE=1;
+				}
+				else{
+					TXins(RX_ERR);
+					receive_buffer[RXptr+1]=FLUSH;
+				}
+				break;
 		
 
 /*****************************************/
@@ -2817,6 +3132,24 @@ void timer_isr (void)
 	CCP1CON = (CCP1CON & 0xCF) | ((LOBYTE(pwm) >> 2) & 0x30);
 }
 #pragma code
+
+/******************************************************************************
+Delay function; waits for N us   (minimum 2 us!)
+ *****************************************************************************/
+void Delay1us(unsigned char delay){
+	byte d=delay-2;
+	for(;d;d--){
+		Nop();
+		Nop();
+		Nop();
+		Nop();
+		Nop();
+		Nop();
+		Nop();
+	}
+	return;
+}	
+
 
 #if defined(SW_I2C)					//software I2C
 // This code is a modified version of MCC18 library code for software I2C

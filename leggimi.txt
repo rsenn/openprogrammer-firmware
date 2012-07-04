@@ -13,3 +13,5 @@ V 0.6.0	giugno 2009: 	nuovo firmware USB GPL, aggiunte istruzioni per PIC24 e mi
 V 0.6.1	agosto 2009:	protocollo SPI software, corregge alcuni bachi della periferica hardware.
 V 0.7.0	gennaio 2010:	aggiunte istruzioni PIC 24F, ID hardware.
 V 0.7.6	luglio 2010:	modifica TX16 e RX16 con periodo clock variabile; aggiustamento per ADC a 12 bit.
+V 0.8.0	giugno 2012: 	aggiunto protocollo one-wire e UNIO; buffer tx spedito automaticamente a fine 
+						elaborazione rx; corretto PROG_C.
