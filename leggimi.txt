@@ -15,3 +15,4 @@ V 0.7.0	gennaio 2010:	aggiunte istruzioni PIC 24F, ID hardware.
 V 0.7.6	luglio 2010:	modifica TX16 e RX16 con periodo clock variabile; aggiustamento per ADC a 12 bit.
 V 0.8.0	giugno 2012: 	aggiunto protocollo one-wire e UNIO; buffer tx spedito automaticamente a fine 
 						elaborazione rx; corretto PROG_C.
+V 0.9.0	gennaio 2014: 	aggiunte istruzioni SET_PORT_DIR, AT_HV_RTX, SIX_LONG5; migliorato algoritmo di controllo DCDC.

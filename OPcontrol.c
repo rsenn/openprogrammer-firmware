@@ -1,7 +1,7 @@
 /*********************************************************************
  * OPcontrol - control firmare for the Open Programmer
  * for more info see: openprog.altervista.org
- * Copyright (C) 2009-2012 Alberto Maccioni
+ * Copyright (C) 2009-2013 Alberto Maccioni
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,30 +30,31 @@ History
 0.7.0 - 31/12/09 added and modified PIC24 instructions
 0.7.6 - 1/7/10 modified TX16 & RX16 instructions, conditional code to use 12 bit ADC on 18F2553
 0.8.0 - 30/6/12 added One Wire support, auto-flush tx buffer when rx all processed, fixed PROG_C
+0.9.0 - 25/1/14 added SET_PORT_DIR,AT_HV_RTX,SIX_LONG5; improved DCDC control
 *********************************************************************
 Map of peripherals
 
-Timer0	blink timer: 11 ms 
+Timer0	blink timer: 11 ms
 
-Timer2	(if DCDC on): 90kHz, no prescaler, no postscaler 
+Timer2	(if DCDC on): 90kHz, no prescaler, no postscaler
 
 Timer3 	(if DCDC on): synchronous counter, no prescaler, source for CCP2
 		(after CLOCK_GEN command): 16 bit, source for CCP1 & CCP2, no prescaler
-				
+
 CCP1	(if DCDC on): PWM mode, clock from timer2, 90 kHz, to DCDC converter
 		(after CLOCK_GEN command): compare mode, reset timer3 on match
-		
+
 CCP2	(if DCDC on): compare mode, trigger ADC every 250us
 		(after CLOCK_GEN command): compare mode, toggle on match, clock to external devices
 
 ADC: 	acquires Vreg*12k/34k on AN0, FOSC/64, triggered by CCP2, generates interrupt
 
-MSSP 	(I2C mode): master 
+MSSP 	(I2C mode): master
 		this was removed for problems with the hardware peripheral:
 		[(SPI mode): master, clock from timer2 ]
 
 If compiled for 18F2450:
-Timer1  (if DCDC on): interrupt every 250us, ADC started by interrupt routine; 
+Timer1  (if DCDC on): interrupt every 250us, ADC started by interrupt routine;
 no CCP2
 no MSSP
 software I2C
@@ -71,17 +72,17 @@ software SPI
 #include "instructions.h"
 
 //********Misc.********
-#define VERSION "0.8.0"
+#define VERSION "0.9.0"
 #define VER2	0
-#define VER1	8
+#define VER1	9
 #define VER0	0
 #define ID2	0
 #define ID1	0
 #define TX_TEMP_MAX 10
 #define LOBYTE(x) (*((char *)&x))
 #define HIBYTE(x) (*(((char *)&x)+1))
-#define RX_ERR 	 	0xfe	//RX error 
-#define INS_ERR	 	0xfe	//instruction error 
+#define RX_ERR 	 	0xfe	//RX error
+#define INS_ERR	 	0xfe	//instruction error
 #define ACK_ERR 	0xfd	//I2C acknowledge error
 #define SW_SPI	//some chips (such as 18F2550) have bugs in the hardware implementation
 #if defined(__18F2455)||defined(__18F2550)
@@ -157,6 +158,10 @@ software SPI
 #define uWDO_dir	TRISCbits.TRISC7
 #define uWDO		LATCbits.LATC7
 #define uWDOnum		7
+#define PB1 		0
+#define PB2 		1
+#define PB0 		7
+#define PB3 		6
 //***************PORTA*****************
 #define LED1		LATAbits.LATA1
 #define LED2		LATAbits.LATA2
@@ -222,7 +227,7 @@ void SWStopI2C( void );                // Generate bus stop condition
 void SWStartI2C( void );               // Generate bus start condition
 void SWRestartI2C( void );             // Generate bus restart condition
 signed char SWAckI2C( void );             // Read bus ACK condition
-unsigned int  SWGetcI2C( void );          // Read in single byte 
+unsigned int  SWGetcI2C( void );          // Read in single byte
 signed char SWPutcI2C( auto unsigned char data_out ); // Write out single byte
 void NAckI2C( void );
 void AckI2C( void );
@@ -278,8 +283,8 @@ void BlinkStatus(){
 			LED2 = !LED2;
 			led_cnt=0;
 		}
-	}	
-}	
+	}
+}
 
 
 /******************************************************************************
@@ -382,7 +387,7 @@ void ParseCommands(void)
    	   			if(!(ep1Bi.Stat&UOWN)) HIDTxReport(transmit_buffer, HID_INPUT_REPORT_BYTES);
    	 			else IN_pending=1;
 				RXptr=number_of_bytes_read;
-				break; 
+				break;
 			case VREG_EN:			//enable DCDC [5us]
 				TXins(VREG_EN);
 				err=errz=pwm=0;
@@ -521,14 +526,14 @@ void ParseCommands(void)
 				TXins(ADRESH);
 				TXins(ADRESL);
 				break;
-			case SET_VPP:				
+			case SET_VPP:
 			//set vpp (X x 0.1V) and wait for it to stabilize to +- 0.2V
 			//return X if successful, else INS_ERR
 				TXins(SET_VPP);
 				if(RXptr+1<number_of_bytes_read){
 #if !defined(NO_CCP2)
 					if(!PIE1bits.ADIE||!HLVDCONbits.IVRST) TXins(INS_ERR); //Check interrupt and HLVD
-#else 
+#else
 					if(!PIE1bits.TMR1IE||!HLVDCONbits.IVRST) TXins(INS_ERR); //Check interrupt and HLVD
 #endif
 					else{
@@ -556,7 +561,7 @@ void ParseCommands(void)
 					receive_buffer[RXptr+1]=FLUSH;
 				}
 				break;
-			case EN_VPP_VCC:				
+			case EN_VPP_VCC:
 			//controls VPP and VCC, bit 0 VCC, bit 2 VPP
 				TXins(EN_VPP_VCC);
 				if(RXptr+1<number_of_bytes_read){
@@ -1050,7 +1055,7 @@ void ParseCommands(void)
 					receive_buffer[RXptr+1]=FLUSH;
 				}
 				break;
-			case PROG_C:			
+			case PROG_C:
 			//Program and verify word; 000010, 001000, 001110, M pulses & Nx overpulses; 14 bit data
 				TXins(PROG_C);
 				if(RXptr+2<number_of_bytes_read){
@@ -1914,7 +1919,7 @@ void ParseCommands(void)
 									NAckI2C(); //not acknowledge
 								}
 							}
-						}	
+						}
 					}
 					if(SWAckI2C()&&HIBYTE(d)){
 						TXins(ACK_ERR);
@@ -2170,7 +2175,7 @@ void ParseCommands(void)
 					else{
 						TXins(RX_ERR);
 						receive_buffer[RXptr+1]=FLUSH;
-					}				
+					}
 				}
 				else{
 					TXins(RX_ERR);
@@ -2362,10 +2367,52 @@ void ParseCommands(void)
 					receive_buffer[RXptr+1]=FLUSH;
 				}
 				break;
+			case SIX_LONG5:				//Core instruction (PIC24) 0000, 24 bit data + 5 NOP [275us]
+				TXins(SIX_LONG5);
+				if(RXptr+3<number_of_bytes_read){
+					INTCONbits.GIE=0;
+					Ddir_bit=0;		//Output
+					D0();
+					CKpulseL();
+					CKpulseL();
+					CKpulseL();
+					CKpulseL();
+					HIBYTE(d)=receive_buffer[++RXptr];	//H
+					LOBYTE(d)=receive_buffer[++RXptr];	//
+					i2=receive_buffer[++RXptr];			//L
+					_asm
+					MOVLW	24
+					movwf	i,0
+					ciclo_r196b:
+					RRCF	d+1,1,0
+					RRCF	d,1,0
+					RRCF	i2,1,0
+					BTFSS 	STATUS,0,0		//Carry
+					BCF 	PORTB,Dnum,0	//D0();
+					BTFSC 	STATUS,0,0		//Carry
+					BSF 	PORTB,Dnum,0	//D1();
+					nop
+					BSF 	PORTB,CKnum,0	//CKpulse();
+					nop
+					nop
+					nop
+					BCF 	PORTB,CKnum,0
+					decfsz	i,1,0
+					BRA 	ciclo_r196b
+					_endasm
+					D0();
+					for(i=0;i<140;i++)CKpulseL();
+					INTCONbits.GIE=1;
+				}
+				else{
+					TXins(RX_ERR);
+					receive_buffer[RXptr+1]=FLUSH;
+				}
+				break;
 			//Core instruction (PIC24) 0000, 24 bit data * N
-			//N[7:6] = extra NOP after each SIX	
+			//N[7:6] = extra NOP after each SIX
 			//[(7+38*N(5:0)+28*N(7:6)*N(5:0))us]
-			case SIX_N:				
+			case SIX_N:
 				TXins(SIX_N);
 				i=receive_buffer[++RXptr];
 				i2=i&0x3F;
@@ -2408,7 +2455,7 @@ void ParseCommands(void)
 						_endasm
 						D0();
 						for(i=n;i;i--)CKpulseL();
-					}	
+					}
 					INTCONbits.GIE=1;
 				}
 				else{
@@ -2455,7 +2502,7 @@ void ParseCommands(void)
 				for(i=0;i<28;i++)CKpulseL();
 				INTCONbits.GIE=1;
 				break;
-			case TX16:				
+			case TX16:
 			//Transmit N*16 bit data MSB first
 			//Clock period ~ (2*(T1-1)+1.8)us
 			//Execution time: N*(31.5us+(T1-1)*32us)
@@ -2601,7 +2648,7 @@ void ParseCommands(void)
 						if(i2==0){
 							LOBYTE(d)=receive_buffer[++RXptr];
 							i2=8;
-						}	
+						}
 						_asm
 						RLCF	d,1,0
 						BTFSS 	STATUS,0,0		//Carry
@@ -2649,7 +2696,7 @@ void ParseCommands(void)
 							i2=8;
 							TXins(LOBYTE(d));
 							LOBYTE(d)=0;
-						}	
+						}
 					}
 					INTCONbits.GIE=1;
 				}
@@ -2664,7 +2711,7 @@ void ParseCommands(void)
 				TXins(OW_RESET);
 				INTCONbits.GIE=0;
 				SDA=1;
-				SDA_dir=0;	
+				SDA_dir=0;
 				Nop();
 				SDA=0;
 				Delay1us(250);	//250us
@@ -2693,7 +2740,7 @@ void ParseCommands(void)
 						INTCONbits.GIE=0;
 						for(k=8;k>0;k--){
 							SDA=0;
-							SDA_dir=0;		//start pulse	
+							SDA_dir=0;		//start pulse
 							if(i2&1){		//write 1
 								Delay1us(4);	//4us
 								SDA=1;		//active pull-up
@@ -2733,7 +2780,7 @@ void ParseCommands(void)
 						i2=0;
 						for(k=8;k>0;k--){
 							SDA=0;
-							SDA_dir=0;		//start pulse	
+							SDA_dir=0;		//start pulse
 							Delay1us(6);	//6us
 							SDA=1;		//active pull-up
 							Nop();
@@ -2762,7 +2809,7 @@ void ParseCommands(void)
 				TXins(UNIO_STBY);
 				INTCONbits.GIE=0;
 				SDA=0;
-				SDA_dir=0;	
+				SDA_dir=0;
 				Delay1us(10);	//10us
 				SDA=1;
 				Delay1us(250);	//250us
@@ -2963,7 +3010,97 @@ void ParseCommands(void)
 					receive_buffer[RXptr+1]=FLUSH;
 				}
 				break;
-		
+			case SET_PORT_DIR:				//Sets the direction of expansion lines on PORTB,A,C
+				TXins(SET_PORT_DIR);
+				if(RXptr+2<number_of_bytes_read){
+					TRISB=receive_buffer[++RXptr];
+					i=receive_buffer[++RXptr];
+					TRISC=(TRISC&0x3F)|(i&0xC0); 	//00111111
+					TRISA=(TRISA&0xC7)|(i&0x38); 	//11000111
+				}
+				else{
+					TXins(RX_ERR);
+					receive_buffer[RXptr+1]=FLUSH;
+				}
+				break;
+			case READ_B:				//read PORTB
+				TXins(READ_B);
+				TXins(PORTB);
+				break;
+			case READ_AC:				//read PORTA-C (RC7:RC6:RA5:RA4:RA3:0:0:0)
+				TXins(READ_AC);
+				TXins(PORTA&0x38|PORTC&0xC0);
+				break;
+			case AT_HV_RTX:
+			//Transmit 2N*8 bit data MSB first on RB0/RC7 (PB1/PB0) CLK on RC6 (PB3)
+			//byteN=PB1, byteN+1=PB0
+			//Receive 8 bit data on RB1 (PB2) but return only the last byte read
+			//Execution time: 5+N*18us
+				TXins(AT_HV_RTX);
+				i=receive_buffer[++RXptr];
+				if(RXptr+i+i<number_of_bytes_read){
+					byte j;
+					INTCONbits.GIE=0;
+					LATCbits.LATC6=0;		//PB3=0
+					LATBbits.LATB0=0;		//PB1=0
+					LATCbits.LATC7=0;		//PB0=0
+					TRISBbits.TRISB0=0;		//Output
+					TRISCbits.TRISC7=0;		//Output
+					TRISCbits.TRISC6=0;		//Output
+					for(j=i;j;j--){
+						LOBYTE(d)=receive_buffer[++RXptr];	//PB1=RB0
+						HIBYTE(d)=receive_buffer[++RXptr];	//PB0=RC7
+						_asm
+						BSF 	PORTC,PB3,0 	//CKpulse();
+						nop
+						nop
+						BCF 	PORTC,PB3,0
+						MOVLW	8
+						movwf	i,0
+						ciclo_r200:
+						BCF 	STATUS,0,0		//Carry
+						BTFSC 	PORTB,PB2,0
+						BSF 	STATUS,0,0		//Carry
+						RLCF	i2,1,0
+						RLCF	d,1,0
+						BTFSS 	STATUS,0,0		//Carry
+						BCF 	PORTB,PB1,0		//D0();
+						BTFSC 	STATUS,0,0		//Carry
+						BSF 	PORTB,PB1,0 	//D1();
+						RLCF	d+1,1,0
+						BTFSS 	STATUS,0,0		//Carry
+						BCF 	PORTC,PB0,0		//D0();
+						BTFSC 	STATUS,0,0		//Carry
+						BSF 	PORTC,PB0,0 	//D1();
+						nop
+						BSF 	PORTC,PB3,0 	//CKpulse();
+						nop
+						nop
+						BCF 	PORTC,PB3,0
+						decfsz	i,1,0
+						BRA 	ciclo_r200
+						BSF 	PORTC,PB3,0 	//CKpulse();
+						nop
+						nop
+						BCF 	PORTC,PB3,0
+						nop
+						nop
+						BSF 	PORTC,PB3,0 	//CKpulse();
+						nop
+						nop
+						BCF 	PORTC,PB3,0
+						BCF 	PORTB,PB1,0		//D0();
+						BCF 	PORTC,PB0,0		//D0();
+						_endasm
+					}
+					TXins(i2);
+					INTCONbits.GIE=1;
+				}
+				else{
+					TXins(RX_ERR);
+					receive_buffer[RXptr+1]=FLUSH;
+				}
+				break;
 
 /*****************************************/
 // special instructions (debug)
@@ -3077,7 +3214,7 @@ void TXins(byte x)
 #pragma interruptlow timer_isr
 void timer_isr (void)
 {
-#if defined(NO_CCP2)			//no autostart by CCP2	
+#if defined(NO_CCP2)			//no autostart by CCP2
 	ADCON0bits.GO=1;			//start conversion
 	TMR1H=0xF4;					//64K-3000 @48MHz = 250 us
 	TMR1L=0x48;
@@ -3090,7 +3227,7 @@ void timer_isr (void)
 	errz=err;
 	HIBYTE(err)=ADRESH;
 	LOBYTE(err)=ADRESL;
-#if defined(ADC12)			//must shift if 12 bit result	
+#if defined(ADC12)			//must shift if 12 bit result
 	err>>=2;
 #endif
 	err-=vreg;
@@ -3126,10 +3263,16 @@ void timer_isr (void)
 
 	_endasm
 
-	if(HIBYTE(pwm)<0) pwm=0;
-	if(HIBYTE(pwm)>pwm_maxH) HIBYTE(pwm)=pwm_maxH;
-	CCPR1L=HIBYTE(pwm);
-	CCP1CON = (CCP1CON & 0xCF) | ((LOBYTE(pwm) >> 2) & 0x30);
+	if(pwm<=-512) pwm=-512;
+	if(pwm>0x6400) pwm=0x6400;
+	if(HIBYTE(pwm)<0){
+		CCPR1L=0;
+		CCP1CON = (CCP1CON & 0xCF);
+	}
+	else{
+		CCPR1L=HIBYTE(pwm);
+		CCP1CON = (CCP1CON & 0xCF) | ((LOBYTE(pwm) >> 2) & 0x30);
+	}
 }
 #pragma code
 
@@ -3148,7 +3291,7 @@ void Delay1us(unsigned char delay){
 		Nop();
 	}
 	return;
-}	
+}
 
 
 #if defined(SW_I2C)					//software I2C
@@ -3162,9 +3305,9 @@ void SWStartI2C( void )
 
 signed char SWAckI2C( void )
 {
-  SCLK_LAT = 0;                   // set clock pin latch to 0  
+  SCLK_LAT = 0;                   // set clock pin latch to 0
   CLOCK_LOW;                      // set clock pin to output to drive low
-  DATA_HI;                        // release data line to float high 
+  DATA_HI;                        // release data line to float high
   DelayT();                   // user may need to modify based on Fosc
   CLOCK_HI;                       // release clock line to float high
   DelayT();                    // 1 cycle delay
@@ -3181,7 +3324,7 @@ signed char SWAckI2C( void )
 
 unsigned int SWGetcI2C( void )
 {
-  BIT_COUNTER = 8;                // set bit count for byte 
+  BIT_COUNTER = 8;                // set bit count for byte
   SCLK_LAT = 0;                   // set clock pin latch to 0
 
   do
@@ -3196,7 +3339,7 @@ unsigned int SWGetcI2C( void )
 
     if ( DATA_PIN )               // is data line high
      I2C_BUFFER |= 0x01;          // set bit 0 to logic 1
-   
+
   } while ( --BIT_COUNTER );      // stay until 8 bits have been acquired
 
   return ( (unsigned int) I2C_BUFFER ); // return with data
@@ -3207,34 +3350,34 @@ signed char SWPutcI2C( unsigned char data_out )
   BIT_COUNTER = 8;                // initialize bit counter
   I2C_BUFFER = data_out;          // data to send out
   SCLK_LAT = 0;                   // set latch to 0
-                                 
+
   do
     {
      I2C_BUFFER &= 0xFF;          // generate movlb instruction
       _asm
-      rlcf I2C_BUFFER,1,1         // rotate into carry and test  
+      rlcf I2C_BUFFER,1,1         // rotate into carry and test
       _endasm
 
       if ( STATUS & 0x01 )        // if carry set, transmit out logic 1
       {
        CLOCK_LOW;                 // set clock pin output to drive low
-       DATA_HI;                   // release data line to float high 
+       DATA_HI;                   // release data line to float high
        DelayT();              // user may need to modify based on Fosc
-       CLOCK_HI;                  // release clock line to float high 
+       CLOCK_HI;                  // release clock line to float high
        DelayT();              // user may need to modify based on Fosc
       }
       else                        // transmit out logic 0
       {
         CLOCK_LOW;                // set clock pin output to drive low
         DATA_LAT = 0;             // set data pin latch to 0
-        DATA_LOW;                 // set data pin output to drive low 
+        DATA_LOW;                 // set data pin output to drive low
         DelayT();             // user may need to modify based on Fosc
-        CLOCK_HI;                 // release clock line to float high 
+        CLOCK_HI;                 // release clock line to float high
         DelayT();             // user may need to modify based on Fosc
       }
 
      BIT_COUNTER --;              // reduce bit counter by 1
-  } while ( BIT_COUNTER );        // stay in transmit loop until byte sent 
+  } while ( BIT_COUNTER );        // stay in transmit loop until byte sent
 
   return ( 0 );                   // return with no error
 }
@@ -3269,9 +3412,9 @@ void SWStopI2C( void )
 void NAckI2C( void )
 {
       CLOCK_LOW;                  // make clock pin output to drive low
-      DATA_HI;                    // release data line to float high 
+      DATA_HI;                    // release data line to float high
       DelayT();               // user may need to modify based on Fosc
-      CLOCK_HI;                   // release clock line to float high 
+      CLOCK_HI;                   // release clock line to float high
       DelayT();               // user may need to modify based on Fosc
 }
 
@@ -3281,7 +3424,7 @@ void AckI2C( void )
       DATA_LAT = 0;               // set data pin latch to 0
       DATA_LOW;                   // make data pin output to drive low
       DelayT();               // user may need to modify based on Fosc
-      CLOCK_HI;                   // release clock line to float high 
+      CLOCK_HI;                   // release clock line to float high
       DelayT();               // user may need to modify based on Fosc
 }
 
@@ -3297,7 +3440,7 @@ void DelayT(){
 		Nop();
 	}
 	return;
-}	
+}
 #endif
 #if defined(SW_SPI)					//software SPI
 
@@ -3318,18 +3461,18 @@ spi_cycle:
 	BCF 	PORTC,7,0	//D0();
 	BTFSC 	I2C_BUFFER,7,0
 	BSF 	PORTC,7,0	//D1();
-spi_NOphase0:	
+spi_NOphase0:
 	movf	T1,0,0		//half bit delay
 	movwf	tt,0
 	spi_halfbit0:
 	decfsz	tt,1,0
 	bra 	spi_halfbit0
-	
+
 	BTFSS 	RES0,3,0		//Clock edge, depending on polarity
-	BSF 	PORTB,1,0	
+	BSF 	PORTB,1,0
 	BTFSC 	RES0,3,0
 	BCF 	PORTB,1,0
-	
+
 	btfss 	RES0,2,0			//Check data phase (bit 2 of T2)
 	bra 	spi_NOphase1
 	BTFSS	I2C_BUFFER,7,0		//MSB first
@@ -3340,24 +3483,24 @@ spi_NOphase0:
 spi_NOphase1:
 	RRCF 	PORTB,0,0	//shift in RB0
 	RLCF	I2C_BUFFER,1,0
-spi_NOphase0in:	
-	
+spi_NOphase0in:
+
 	movf	T1,0,0		//half bit delay
 	movwf	tt,0
 	spi_halfbit1:
 	decfsz	tt,1,0
 	bra 	spi_halfbit1
-	
+
 	BTFSS 	RES0,3,0		//Clock edge, depending on polarity
 	BCF 	PORTB,1,0
 	BTFSC 	RES0,3,0
 	BSF 	PORTB,1,0
-	
+
 	btfss 	RES0,2,0			//Check data phase (bit 2 of T2)
 	bra 	spi_NOphase1in
 	RRCF 	PORTB,0,0	//shift in RB0
 	RLCF	I2C_BUFFER,1,0
-spi_NOphase1in:	
+spi_NOphase1in:
 
 	decfsz	i2,1,0
 	BRA 	spi_cycle

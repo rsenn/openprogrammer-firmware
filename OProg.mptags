@@ -6,52 +6,53 @@
 !_TAG_PROGRAM_VERSION	5.5.4	//
 !_TAG_REVISION_NAME	MCHPTags	//
 !_TAG_REVISION_VERSION	6.0.1	//
-A0::LATBbits.LATB3	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	136;"	d	line:136	file:
-A0_dir::TRISBbits.TRISB3	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	142;"	d	line:142	file:
-A1::LATBbits.LATB4	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	135;"	d	line:135	file:
-A1_dir::TRISBbits.TRISB4	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	141;"	d	line:141	file:
-A2::LATBbits.LATB5	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	134;"	d	line:134	file:
-A2_dir::TRISBbits.TRISB5	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	140;"	d	line:140	file:
-ACK_ERR::0xfd	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	85;"	d	line:85	file:
-ADC12::	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	95;"	d	line:95	file:
+A0::LATBbits.LATB3	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	137;"	d	line:137	file:
+A0_dir::TRISBbits.TRISB3	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	143;"	d	line:143	file:
+A1::LATBbits.LATB4	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	136;"	d	line:136	file:
+A1_dir::TRISBbits.TRISB4	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	142;"	d	line:142	file:
+A2::LATBbits.LATB5	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	135;"	d	line:135	file:
+A2_dir::TRISBbits.TRISB5	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	141;"	d	line:141	file:
+ACK_ERR::0xfd	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	86;"	d	line:86	file:
+ADC12::	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	96;"	d	line:96	file:
 ADDR	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.h	101;"	m	line:101	struct:_BDT
 ADDRESS::4	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.h	94;"	d	line:94
 ALLOW_SUSPEND::0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	27;"	d	line:27	file:
 ATTACHED::1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.h	91;"	d	line:91
+AT_HV_RTX::0x48	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	78;"	d	line:78
 AT_LOAD_DATA::0x34	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	58;"	d	line:58
 AT_READ_DATA::0x33	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	57;"	d	line:57
-AckI2C	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	228;"	p	line:228	file:	signature:( void )
-AckI2C	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	3290;"	f	line:3290	signature:( void )
+AckI2C	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	233;"	p	line:233	file:	signature:( void )
+AckI2C	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	3422;"	f	line:3422	signature:( void )
 BC8::0x01	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.h	87;"	d	line:87
 BC9::0x02	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.h	86;"	d	line:86
 BDT	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.h	102;"	t	line:102
 BEGIN_PROG2::0x1E	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	36;"	d	line:36
 BEGIN_PROG::0x18	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	30;"	d	line:30
-BIT_COUNTER	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	210;"	v	line:210
+BIT_COUNTER	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	215;"	v	line:215
 BSTALL::0x04	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.h	85;"	d	line:85
 BULK_ERASE_DATA::0x1B	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	33;"	d	line:33
 BULK_ERASE_PROG::0x19	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	31;"	d	line:31
-BlinkStatus	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	217;"	p	line:217	file:
-BlinkStatus	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	269;"	f	line:269
+BlinkStatus	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	222;"	p	line:222	file:
+BlinkStatus	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	274;"	f	line:274
 BusReset	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	1084;"	f	line:1084
 CFSZ::0x29	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	88;"	d	line:88	file:
 CHECK_INS::0x03	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	5;"	d	line:5
-CK0::CK_bit=0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	118;"	d	line:118	file:
-CK1::CK_bit=1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	119;"	d	line:119	file:
-CK_bit::LATBbits.LATB6	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	116;"	d	line:116	file:
-CKdir_bit::TRISBbits.TRISB6	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	117;"	d	line:117	file:
-CKin::CKdir_bit=1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	120;"	d	line:120	file:
-CKlat::LATB	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	113;"	d	line:113	file:
-CKnum::6	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	112;"	d	line:112	file:
-CKout::CKdir_bit=0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	121;"	d	line:121	file:
-CKport::PORTB	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	114;"	d	line:114	file:
-CKpulse::CK_bit=1;CK_bit=0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	122;"	d	line:122	file:
-CKpulseL::{Nop;CK_bit=1;Nop;Nop;Nop;CK_b	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	123;"	d	line:123	file:
-CKtris::TRISB	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	115;"	d	line:115	file:
+CK0::CK_bit=0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	119;"	d	line:119	file:
+CK1::CK_bit=1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	120;"	d	line:120	file:
+CK_bit::LATBbits.LATB6	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	117;"	d	line:117	file:
+CKdir_bit::TRISBbits.TRISB6	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	118;"	d	line:118	file:
+CKin::CKdir_bit=1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	121;"	d	line:121	file:
+CKlat::LATB	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	114;"	d	line:114	file:
+CKnum::6	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	113;"	d	line:113	file:
+CKout::CKdir_bit=0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	122;"	d	line:122	file:
+CKport::PORTB	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	115;"	d	line:115	file:
+CKpulse::CK_bit=1;CK_bit=0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	123;"	d	line:123	file:
+CKpulseL::{Nop;CK_bit=1;Nop;Nop;Nop;CK_b	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	124;"	d	line:124	file:
+CKtris::TRISB	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	116;"	d	line:116	file:
 CLEAR_FEATURE::1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.h	39;"	d	line:39
 CLOCK_GEN::0x35	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	59;"	d	line:59
-CLOCK_HI::TRISBbits.TRISB1=1;	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	235;"	d	line:235	file:
-CLOCK_LOW::TRISBbits.TRISB1=0;	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	234;"	d	line:234	file:
+CLOCK_HI::TRISBbits.TRISB1=1;	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	240;"	d	line:240	file:
+CLOCK_LOW::TRISBbits.TRISB1=0;	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	239;"	d	line:239	file:
 CONFIGURATION_DESCRIPTOR::0x02	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.h	52;"	d	line:52
 CONFIGURED::5	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.h	95;"	d	line:95
 CONFIG_HEADER_SIZE::0x09	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	36;"	d	line:36	file:
@@ -59,14 +60,14 @@ CORE_INS::0x21	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\
 CUST_CMD::0x1F	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	37;"	d	line:37
 Cnt	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.h	100;"	m	line:100	struct:_BDT
 ConfigStruct	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	43;"	t	line:43	file:
-D0::D_bit=0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	108;"	d	line:108	file:
-D1::D_bit=1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	109;"	d	line:109	file:
-DATA_HI::TRISBbits.TRISB0=1;	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	231;"	d	line:231	file:
+D0::D_bit=0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	109;"	d	line:109	file:
+D1::D_bit=1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	110;"	d	line:110	file:
+DATA_HI::TRISBbits.TRISB0=1;	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	236;"	d	line:236	file:
 DATA_IN_STAGE::2	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	55;"	d	line:55	file:
-DATA_LAT::LATBbits.LATB0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	232;"	d	line:232	file:
-DATA_LOW::TRISBbits.TRISB0=0;	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	230;"	d	line:230	file:
+DATA_LAT::LATBbits.LATB0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	237;"	d	line:237	file:
+DATA_LOW::TRISBbits.TRISB0=0;	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	235;"	d	line:235	file:
 DATA_OUT_STAGE::1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	54;"	d	line:54	file:
-DATA_PIN::PORTBbits.RB0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	233;"	d	line:233	file:
+DATA_PIN::PORTBbits.RB0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	238;"	d	line:238	file:
 DEBUG_PRINT::0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.h	25;"	d	line:25
 DEFAULT::3	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.h	93;"	d	line:93
 DETACHED::0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.h	90;"	d	line:90
@@ -75,20 +76,19 @@ DEVICE_DESCRIPTOR_SIZE::0x12	C:\Documents and Settings\Alberto\Documenti\Progett
 DEVICE_REMOTE_WAKEUP::0x01	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.h	75;"	d	line:75
 DTS::0x40	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.h	81;"	d	line:81
 DTSEN::0x08	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.h	84;"	d	line:84
-D_bit::LATBbits.LATB5	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	106;"	d	line:106	file:
-Ddir_bit::TRISBbits.TRISB5	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	107;"	d	line:107	file:
-Delay1us	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	219;"	p	line:219	file:	signature:(unsigned char delay)
-Delay1us	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	3151;"	f	line:3151	signature:(unsigned char delay)
-Delay2us	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	218;"	p	line:218	file:	signature:(unsigned char delay)
-Delay2us	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	3122;"	f	line:3122	signature:(unsigned char delay)
-DelayT	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	229;"	p	line:229	file:
-DelayT	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	3301;"	f	line:3301
-Din::Ddir_bit=1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	110;"	d	line:110	file:
-Dlat::LATB	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	103;"	d	line:103	file:
-Dnum::5	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	102;"	d	line:102	file:
-Dout::Ddir_bit=0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	111;"	d	line:111	file:
-Dport::PORTB	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	104;"	d	line:104	file:
-Dtris::TRISB	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	105;"	d	line:105	file:
+D_bit::LATBbits.LATB5	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	107;"	d	line:107	file:
+Ddir_bit::TRISBbits.TRISB5	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	108;"	d	line:108	file:
+Delay1us	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	224;"	p	line:224	file:	signature:(unsigned char delay)
+Delay1us	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	3283;"	f	line:3283	signature:(unsigned char delay)
+Delay2us	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	223;"	p	line:223	file:	signature:(unsigned char delay)
+DelayT	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	234;"	p	line:234	file:
+DelayT	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	3433;"	f	line:3433
+Din::Ddir_bit=1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	111;"	d	line:111	file:
+Dlat::LATB	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	104;"	d	line:104	file:
+Dnum::5	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	103;"	d	line:103	file:
+Dout::Ddir_bit=0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	112;"	d	line:112	file:
+Dport::PORTB	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	105;"	d	line:105	file:
+Dtris::TRISB	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	106;"	d	line:106	file:
 E0SZ::8	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.h	134;"	d	line:134
 ENDPOINT_DESCRIPTOR::0x05	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.h	55;"	d	line:55
 ENDPOINT_HALT::0x00	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.h	76;"	d	line:76
@@ -98,7 +98,7 @@ EN_VPP_VCC::0x0E	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronic
 EXT_PORT::0x32	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	56;"	d	line:56
 EnableUSBModule	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	988;"	f	line:988	signature:(void)
 EnableUSBModule	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.h	151;"	p	line:151	signature:(void)
-F::1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	3082;"	d	line:3082	file:
+F::1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	3237;"	d	line:3237	file:
 FLUSH::0x04	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	6;"	d	line:6
 GET_CONFIGURATION::8	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.h	44;"	d	line:44
 GET_DESCRIPTOR::6	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.h	42;"	d	line:42
@@ -109,13 +109,13 @@ GET_REPORT::0x01	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronic
 GET_STATUS::0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.h	38;"	d	line:38
 GetDescriptor	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	461;"	f	line:461	file:	signature:(void)
 GetStatus	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	529;"	f	line:529	file:	signature:(void)
-HIBYTE	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	2447;"	p	line:2447	file:
-HIBYTE	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	2578;"	p	line:2578	file:
-HIBYTE	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	2964;"	p	line:2964	file:
-HIBYTE	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	2982;"	p	line:2982	file:
-HIBYTE	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	3011;"	p	line:3011	file:
-HIBYTE	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	803;"	p	line:803	file:
-HIBYTE::(x)(*(((char*)&x)+1))	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	82;"	d	line:82	file:
+HIBYTE	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	2494;"	p	line:2494	file:
+HIBYTE	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	2625;"	p	line:2625	file:
+HIBYTE	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	3119;"	p	line:3119	file:
+HIBYTE	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	3137;"	p	line:3137	file:
+HIBYTE	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	3166;"	p	line:3166	file:
+HIBYTE	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	808;"	p	line:808	file:
+HIBYTE::(x)(*(((char*)&x)+1))	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	83;"	d	line:83	file:
 HIDDescriptor	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	42;"	m	line:42	struct:_configStruct	file:
 HIDGetReport	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	306;"	f	line:306	signature:(void)
 HIDInitEndpoint	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	285;"	f	line:285	signature:(void)
@@ -139,74 +139,78 @@ HIRB::HID_INPUT_REPORT_BYTES	C:\Documents and Settings\Alberto\Documenti\Progett
 HISZ::HID_INPUT_REPORT_BYTES	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	89;"	d	line:89	file:
 HORB::HID_OUTPUT_REPORT_BYTES	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	129;"	d	line:129	file:
 HOSZ::HID_OUTPUT_REPORT_BYTES	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	90;"	d	line:90	file:
-I2C_BUFFER	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	209;"	v	line:209
+I2C_BUFFER	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	214;"	v	line:214
 I2C_INIT::0x2B	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	49;"	d	line:49
 I2C_READ2::0x2E	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	52;"	d	line:52
 I2C_READ::0x2C	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	50;"	d	line:50
 I2C_WRITE::0x2D	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	51;"	d	line:51
-I2C_mask::0xC7	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	145;"	d	line:145	file:
+I2C_mask::0xC7	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	146;"	d	line:146	file:
 ICSP_NOP::0x38	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	62;"	d	line:62
-ID0::1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	88;"	d	line:88	file:
-ID0::2	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	90;"	d	line:90	file:
-ID0::255	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	97;"	d	line:97	file:
-ID0::3	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	94;"	d	line:94	file:
-ID1::0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	79;"	d	line:79	file:
-ID2::0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	78;"	d	line:78	file:
+ID0::1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	89;"	d	line:89	file:
+ID0::2	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	91;"	d	line:91	file:
+ID0::255	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	98;"	d	line:98	file:
+ID0::3	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	95;"	d	line:95	file:
+ID1::0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	80;"	d	line:80	file:
+ID2::0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	79;"	d	line:79	file:
 INCDIS::0x10	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.h	83;"	d	line:83
 INC_ADDR::0x16	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	28;"	d	line:28
 INC_ADDR_N::0x17	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	29;"	d	line:29
-INS_ERR::0xfe	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	84;"	d	line:84	file:
+INS_ERR::0xfe	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	85;"	d	line:85	file:
 INTERFACE_DESCRIPTOR::0x04	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.h	54;"	d	line:54
-IN_pending	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	195;"	v	line:195
+IN_pending	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	200;"	v	line:200
 InDataStage	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	739;"	f	line:739	signature:(void)
 KEN::0x20	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.h	82;"	d	line:82
-LED1::LATAbits.LATA1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	161;"	d	line:161	file:
-LED2::LATAbits.LATA2	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	162;"	d	line:162	file:
+LED1::LATAbits.LATA1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	166;"	d	line:166	file:
+LED2::LATAbits.LATA2	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	167;"	d	line:167	file:
 LOAD_CONF::0x11	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	23;"	d	line:23
 LOAD_DATA_DATA::0x13	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	25;"	d	line:25
 LOAD_DATA_PROG::0x12	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	24;"	d	line:24
-LOBYTE	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	1327;"	p	line:1327	file:
-LOBYTE	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	1365;"	p	line:1365	file:
-LOBYTE	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	1409;"	p	line:1409	file:
-LOBYTE	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	1703;"	p	line:1703	file:
-LOBYTE	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	1818;"	p	line:1818	file:
+LOBYTE	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	1332;"	p	line:1332	file:
+LOBYTE	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	1370;"	p	line:1370	file:
+LOBYTE	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	1414;"	p	line:1414	file:
+LOBYTE	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	1708;"	p	line:1708	file:
 LOBYTE	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	1823;"	p	line:1823	file:
-LOBYTE	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	1836;"	p	line:1836	file:
-LOBYTE	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	1900;"	p	line:1900	file:
-LOBYTE	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	1907;"	p	line:1907	file:
-LOBYTE	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	2448;"	p	line:2448	file:
-LOBYTE	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	2579;"	p	line:2579	file:
-LOBYTE	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	2650;"	p	line:2650	file:
-LOBYTE	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	2965;"	p	line:2965	file:
-LOBYTE	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	2983;"	p	line:2983	file:
-LOBYTE	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	3012;"	p	line:3012	file:
-LOBYTE	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	804;"	p	line:804	file:
-LOBYTE	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	856;"	p	line:856	file:
-LOBYTE::(x)(*((char*)&x))	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	81;"	d	line:81	file:
-LOOP::0xF2	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	79;"	d	line:79
+LOBYTE	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	1828;"	p	line:1828	file:
+LOBYTE	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	1841;"	p	line:1841	file:
+LOBYTE	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	1905;"	p	line:1905	file:
+LOBYTE	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	1912;"	p	line:1912	file:
+LOBYTE	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	2495;"	p	line:2495	file:
+LOBYTE	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	2626;"	p	line:2626	file:
+LOBYTE	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	2697;"	p	line:2697	file:
+LOBYTE	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	3120;"	p	line:3120	file:
+LOBYTE	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	3138;"	p	line:3138	file:
+LOBYTE	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	3167;"	p	line:3167	file:
+LOBYTE	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	809;"	p	line:809	file:
+LOBYTE	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	861;"	p	line:861	file:
+LOBYTE::(x)(*((char*)&x))	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	82;"	d	line:82	file:
+LOOP::0xF2	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	84;"	d	line:84
 LSB::(x)(x&0xFF)	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.h	32;"	d	line:32
-M	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	197;"	v	line:197
-MAX_INS::0x44	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	80;"	d	line:80
+M	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	202;"	v	line:202
+MAX_INS::0x49	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	85;"	d	line:85
 MSB::(x)((x&0xFF00)>>8)	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.h	33;"	d	line:33
-N	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	197;"	v	line:197
-NAckI2C	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	227;"	p	line:227	file:	signature:( void )
-NAckI2C	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	3281;"	f	line:3281	signature:( void )
+N	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	202;"	v	line:202
+NAckI2C	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	232;"	p	line:232	file:	signature:( void )
+NAckI2C	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	3413;"	f	line:3413	signature:( void )
 NOP::0x00	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	2;"	d	line:2
-NO_CCP2::	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	92;"	d	line:92	file:
+NO_CCP2::	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	93;"	d	line:93	file:
 OW_READ::0x42	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	72;"	d	line:72
 OW_RESET::0x40	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	70;"	d	line:70
 OW_WRITE::0x41	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	71;"	d	line:71
 OutDataStage	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	776;"	f	line:776	signature:(void)
-PGM0::PGM_bit=0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	130;"	d	line:130	file:
-PGM1::PGM_bit=1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	131;"	d	line:131	file:
-PGM_bit::LATBbits.LATB7	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	128;"	d	line:128	file:
-PGMdir_bit::TRISBbits.TRISB7	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	129;"	d	line:129	file:
-PGMin::PGMdir_bit=1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	132;"	d	line:132	file:
-PGMlat::LATB	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	125;"	d	line:125	file:
-PGMnum::7	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	124;"	d	line:124	file:
-PGMout::PGMdir_bit=0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	133;"	d	line:133	file:
-PGMport::PORTB	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	126;"	d	line:126	file:
-PGMtris::TRISB	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	127;"	d	line:127	file:
+PB0::7	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	163;"	d	line:163	file:
+PB1::0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	161;"	d	line:161	file:
+PB2::1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	162;"	d	line:162	file:
+PB3::6	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	164;"	d	line:164	file:
+PGM0::PGM_bit=0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	131;"	d	line:131	file:
+PGM1::PGM_bit=1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	132;"	d	line:132	file:
+PGM_bit::LATBbits.LATB7	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	129;"	d	line:129	file:
+PGMdir_bit::TRISBbits.TRISB7	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	130;"	d	line:130	file:
+PGMin::PGMdir_bit=1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	133;"	d	line:133	file:
+PGMlat::LATB	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	126;"	d	line:126	file:
+PGMnum::7	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	125;"	d	line:125	file:
+PGMout::PGMdir_bit=0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	134;"	d	line:134	file:
+PGMport::PORTB	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	127;"	d	line:127	file:
+PGMtris::TRISB	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	128;"	d	line:128	file:
 PHYSICAL_DESCRIPTOR::0x23	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.h	64;"	d	line:64
 PID	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	898;"	l	line:898
 POWERED::2	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.h	92;"	d	line:92
@@ -214,40 +218,42 @@ PROG_C::0x20	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Pr
 PROG_ID::0x02	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	4;"	d	line:4
 PROG_RST::0x01	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	3;"	d	line:3
 PTR16::(x)((unsignedint)(((unsignedlo	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.h	27;"	d	line:27
-ParseCommands	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	216;"	p	line:216	file:	signature:(void)
-ParseCommands	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	335;"	f	line:335	signature:(void)
+ParseCommands	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	221;"	p	line:221	file:	signature:(void)
+ParseCommands	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	340;"	f	line:340	signature:(void)
 ProcessControlTransfer	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	890;"	f	line:890	signature:(void)
 ProcessHIDRequest	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	337;"	f	line:337	signature:(void)
-ProcessIO	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	296;"	f	line:296	signature:(void)
+ProcessIO	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	301;"	f	line:301	signature:(void)
 ProcessIO	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.h	4;"	p	line:4	signature:(void)
 ProcessStandardRequest	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	628;"	f	line:628	signature:(void)
 ProcessUSBTransactions	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	1115;"	f	line:1115	signature:(void)
 ProcessUSBTransactions	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.h	152;"	p	line:152	signature:(void)
+READ_AC::0x47	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	77;"	d	line:77
 READ_ADC::0x0C	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	18;"	d	line:18
+READ_B::0x46	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	76;"	d	line:76
 READ_DATA::0x2A	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	48;"	d	line:48
 READ_DATA_DATA::0x15	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	27;"	d	line:27
 READ_DATA_PROG::0x14	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	26;"	d	line:26
 READ_PINS::0x10	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	22;"	d	line:22
-READ_RAM::0xF0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	77;"	d	line:77
+READ_RAM::0xF0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	82;"	d	line:82
 REGOUT::0x37	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	61;"	d	line:61
 REPORT_DESCRIPTOR::0x22	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.h	63;"	d	line:63
-RES0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	206;"	v	line:206
-RES1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	206;"	v	line:206
-RES2	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	206;"	v	line:206
-RES3	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	206;"	v	line:206
+RES0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	211;"	v	line:211
+RES1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	211;"	v	line:211
+RES2	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	211;"	v	line:211
+RES3	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	211;"	v	line:211
 ROMoutPtr	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	64;"	v	line:64
 ROW_ERASE_PROG::0x1D	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	35;"	d	line:35
 RX16::0x3A	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	64;"	d	line:64
-RX_ERR::0xfe	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	83;"	d	line:83	file:
-RXptr	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	202;"	v	line:202
-SCL::LATBbits.LATB1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	137;"	d	line:137	file:
-SCLK_LAT::LATBbits.LATB1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	236;"	d	line:236	file:
-SCL_dir::TRISBbits.TRISB1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	143;"	d	line:143	file:
-SDA::LATBbits.LATB0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	138;"	d	line:138	file:
-SDA_dir::TRISBbits.TRISB0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	144;"	d	line:144	file:
-SDA_p::PORTBbits.RB0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	139;"	d	line:139	file:
-SDO::LATCbits.LATC7	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	175;"	d	line:175	file:
-SDO_dir::TRISCbits.TRISC7	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	176;"	d	line:176	file:
+RX_ERR::0xfe	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	84;"	d	line:84	file:
+RXptr	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	207;"	v	line:207
+SCL::LATBbits.LATB1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	138;"	d	line:138	file:
+SCLK_LAT::LATBbits.LATB1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	241;"	d	line:241	file:
+SCL_dir::TRISBbits.TRISB1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	144;"	d	line:144	file:
+SDA::LATBbits.LATB0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	139;"	d	line:139	file:
+SDA_dir::TRISBbits.TRISB0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	145;"	d	line:145	file:
+SDA_p::PORTBbits.RB0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	140;"	d	line:140	file:
+SDO::LATCbits.LATC7	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	180;"	d	line:180	file:
+SDO_dir::TRISCbits.TRISC7	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	181;"	d	line:181	file:
 SEND_DATA::0x29	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	47;"	d	line:47
 SETUP_STAGE::0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	53;"	d	line:53	file:
 SET_ADDRESS::5	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.h	41;"	d	line:41
@@ -259,6 +265,7 @@ SET_IDLE::0x0A	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\
 SET_INTERFACE::11	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.h	47;"	d	line:47
 SET_MN::3	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	13;"	d	line:13
 SET_PARAMETER::0x07	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	9;"	d	line:9
+SET_PORT_DIR::0x45	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	75;"	d	line:75
 SET_PROTOCOL::0x0B	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.h	72;"	d	line:72
 SET_REPORT::0x09	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.h	70;"	d	line:70
 SET_T1T2::0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	10;"	d	line:10
@@ -267,39 +274,40 @@ SET_VPP::0x0D	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\P
 SET_timeout::2	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	12;"	d	line:12
 SHIFT_TABLAT::0x22	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	40;"	d	line:40
 SIX::0x36	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	60;"	d	line:60
+SIX_LONG5::0x49	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	79;"	d	line:79
 SIX_LONG::0x3E	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	68;"	d	line:68
 SIX_N::0x3F	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	69;"	d	line:69
-SPICK::LATBbits.LATB1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	150;"	d	line:150	file:
-SPICK_dir::TRISBbits.TRISB1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	149;"	d	line:149	file:
-SPI_CS::LATBbits.LATB3	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	147;"	d	line:147	file:
-SPI_HLD::LATBbits.LATB4	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	148;"	d	line:148	file:
+SPICK::LATBbits.LATB1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	151;"	d	line:151	file:
+SPICK_dir::TRISBbits.TRISB1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	150;"	d	line:150	file:
+SPI_CS::LATBbits.LATB3	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	148;"	d	line:148	file:
+SPI_HLD::LATBbits.LATB4	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	149;"	d	line:149	file:
 SPI_INIT::0x2F	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	53;"	d	line:53
 SPI_READ::0x30	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	54;"	d	line:54
-SPI_TEST::0xEF	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	76;"	d	line:76
+SPI_TEST::0xEF	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	81;"	d	line:81
 SPI_WRITE::0x31	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	55;"	d	line:55
-SPI_mask::0xE5	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	146;"	d	line:146	file:
+SPI_mask::0xE5	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	147;"	d	line:147	file:
 STATUS_STAGE::3	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	56;"	d	line:56	file:
 STRING_DESCRIPTOR::0x03	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.h	53;"	d	line:53
-SW1::PORTEbits.PORTE3	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	178;"	d	line:178	file:
-SWAckI2C	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	224;"	p	line:224	file:	signature:( void )
-SWAckI2C	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	3175;"	f	line:3175	signature:( void )
-SWGetcI2C	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	1827;"	p	line:1827	file:
-SWGetcI2C	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	1839;"	p	line:1839	file:
-SWGetcI2C	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	1911;"	p	line:1911	file:
-SWGetcI2C	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	225;"	p	line:225	file:	signature:( void )
-SWGetcI2C	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	3194;"	f	line:3194	signature:( void )
-SWPutcI2C	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	226;"	p	line:226	file:	signature:( auto unsigned char data_out )
-SWPutcI2C	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	3217;"	f	line:3217	signature:( unsigned char data_out )
-SWRestartI2C	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	223;"	p	line:223	file:	signature:( void )
-SWRestartI2C	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	3254;"	f	line:3254	signature:( void )
-SWStartI2C	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	222;"	p	line:222	file:	signature:( void )
-SWStartI2C	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	3168;"	f	line:3168	signature:( void )
-SWStopI2C	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	221;"	p	line:221	file:	signature:( void )
-SWStopI2C	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	3267;"	f	line:3267	signature:( void )
-SW_I2C	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	91;"	d	line:91	file:
-SW_IO_SPI	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	239;"	p	line:239	file:	signature:(unsigned char c)
-SW_IO_SPI	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	3317;"	f	line:3317	signature:(unsigned char c)
-SW_SPI::	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	86;"	d	line:86	file:
+SW1::PORTEbits.PORTE3	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	183;"	d	line:183	file:
+SWAckI2C	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	229;"	p	line:229	file:	signature:( void )
+SWAckI2C	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	3307;"	f	line:3307	signature:( void )
+SWGetcI2C	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	1832;"	p	line:1832	file:
+SWGetcI2C	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	1844;"	p	line:1844	file:
+SWGetcI2C	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	1916;"	p	line:1916	file:
+SWGetcI2C	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	230;"	p	line:230	file:	signature:( void )
+SWGetcI2C	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	3326;"	f	line:3326	signature:( void )
+SWPutcI2C	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	231;"	p	line:231	file:	signature:( auto unsigned char data_out )
+SWPutcI2C	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	3349;"	f	line:3349	signature:( unsigned char data_out )
+SWRestartI2C	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	228;"	p	line:228	file:	signature:( void )
+SWRestartI2C	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	3386;"	f	line:3386	signature:( void )
+SWStartI2C	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	227;"	p	line:227	file:	signature:( void )
+SWStartI2C	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	3300;"	f	line:3300	signature:( void )
+SWStopI2C	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	226;"	p	line:226	file:	signature:( void )
+SWStopI2C	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	3399;"	f	line:3399	signature:( void )
+SW_I2C	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	92;"	d	line:92	file:
+SW_IO_SPI	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	244;"	p	line:244	file:	signature:(unsigned char c)
+SW_IO_SPI	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	3449;"	f	line:3449	signature:(unsigned char c)
+SW_SPI::	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	87;"	d	line:87	file:
 SYNCH_FRAME::12	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.h	48;"	d	line:48
 SetFeature	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	579;"	f	line:579	file:	signature:(void)
 SetupPacket	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	187;"	v	line:187
@@ -308,9 +316,9 @@ Stall	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programma
 StartOfFrame	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	1032;"	f	line:1032	signature:(void)
 Stat	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.h	99;"	m	line:99	struct:_BDT
 Suspend	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	1054;"	f	line:1054	signature:(void)
-T1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	204;"	v	line:204
-T2	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	197;"	v	line:197
-T3	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	198;"	v	line:198
+T1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	209;"	v	line:209
+T2	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	202;"	v	line:202
+T3	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	203;"	v	line:203
 TABLE_READ::0x23	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	41;"	d	line:41
 TABLE_WRITE::0x25	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	43;"	d	line:43
 TBLR_INC_N::0x24	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	42;"	d	line:42
@@ -318,34 +326,34 @@ TBLW_INC_N::0x26	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronic
 TBLW_PROG::0x27	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	45;"	d	line:45
 TBLW_PROG_INC::0x28	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	46;"	d	line:46
 TX16::0x39	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	63;"	d	line:63
-TX_TEMP_MAX::10	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	80;"	d	line:80	file:
-TXaux	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	202;"	v	line:202
-TXins	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	215;"	p	line:215	file:	signature:(byte x)
-TXins	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	3038;"	f	line:3038	signature:(byte x)
-TXptr	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	202;"	v	line:202
+TX_TEMP_MAX::10	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	81;"	d	line:81	file:
+TXaux	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	207;"	v	line:207
+TXins	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	220;"	p	line:220	file:	signature:(byte x)
+TXins	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	3193;"	f	line:3193	signature:(byte x)
+TXptr	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	207;"	v	line:207
 UNIO_COM::0x44	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	74;"	d	line:74
 UNIO_STBY::0x43	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	73;"	d	line:73
 UOWN::0x80	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.h	80;"	d	line:80
 USB_H	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.h	23;"	d	line:23
 USE_MEMCPY::0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	30;"	d	line:30	file:
 UnSuspend	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	1019;"	f	line:1019	signature:(void)
-UserInit	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	245;"	f	line:245	signature:(void)
+UserInit	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	250;"	f	line:250	signature:(void)
 UserInit	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.h	3;"	p	line:3	signature:(void)
-VER0::0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	77;"	d	line:77	file:
-VER1::8	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	76;"	d	line:76	file:
-VER2::0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	75;"	d	line:75	file:
-VERSION::"0.8.0"	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	74;"	d	line:74	file:
+VER0::0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	78;"	d	line:78	file:
+VER1::9	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	77;"	d	line:77	file:
+VER2::0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	76;"	d	line:76	file:
+VERSION::"0.9.0"	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	75;"	d	line:75	file:
 VREG_DIS::0x06	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	8;"	d	line:8
 VREG_EN::0x05	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	7;"	d	line:7
-Vcost::72.282	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	99;"	d	line:99	file:
-W::0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	3083;"	d	line:3083	file:
+Vcost::72.282	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	100;"	d	line:100	file:
+W::0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	3238;"	d	line:3238	file:
 WAIT_T1::0x08	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	14;"	d	line:14
 WAIT_T2::0x09	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	15;"	d	line:15
 WAIT_T3::0x0A	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	16;"	d	line:16
 WAIT_US::0x0B	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	17;"	d	line:17
-WP::LATCbits.LATC6	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	173;"	d	line:173	file:
-WP_dir::TRISCbits.TRISC6	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	174;"	d	line:174	file:
-WRITE_RAM::0xF1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	78;"	d	line:78
+WP::LATCbits.LATC6	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	178;"	d	line:178	file:
+WP_dir::TRISCbits.TRISC6	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	179;"	d	line:179	file:
+WRITE_RAM::0xF1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	83;"	d	line:83
 WaitForSetupStage	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	877;"	f	line:877	signature:(void)
 _BDT	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.h	97;"	s	line:97
 _configStruct	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	39;"	s	line:39	file:
@@ -359,22 +367,21 @@ byte	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmat
 configDescriptor	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	92;"	v	line:92
 configHeader	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	41;"	m	line:41	struct:_configStruct	file:
 controlTransferBuffer	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	188;"	v	line:188
-counter	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	2998;"	l	line:2998
+counter	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	3153;"	l	line:3153
 ctrlTransferStage	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	58;"	v	line:58
 currentConfiguration	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	50;"	v	line:50
-d	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	207;"	v	line:207
-d	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	3123;"	l	line:3123
-d	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	3152;"	l	line:3152
+d	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	212;"	v	line:212
+d	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	3284;"	l	line:3284
 descriptorIndex	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	469;"	l	line:469
 descriptorType	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	350;"	l	line:350
 descriptorType	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	468;"	l	line:468
 deviceAddress	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	48;"	v	line:48
 deviceDescriptor	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	74;"	v	line:74
 deviceState	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	46;"	v	line:46
-dx	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	2788;"	l	line:2788
-eestr	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	184;"	v	line:184
-eestr2	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	185;"	v	line:185
-eestr3	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	186;"	v	line:186
+dx	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	2835;"	l	line:2835
+eestr	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	189;"	v	line:189
+eestr2	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	190;"	v	line:190
+eestr3	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	191;"	v	line:191
 endpointDir	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	559;"	l	line:559
 endpointDir	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	604;"	l	line:604
 endpointNum	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	558;"	l	line:558
@@ -383,37 +390,38 @@ ep0Bi	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programma
 ep0Bo	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	175;"	v	line:175
 ep1Bi	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	178;"	v	line:178
 ep1Bo	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	177;"	v	line:177
-err	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	205;"	v	line:205
-errors	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	2998;"	l	line:2998
-errz	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	205;"	v	line:205
+err	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	210;"	v	line:210
+errors	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	3153;"	l	line:3153
+errz	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	210;"	v	line:210
 extra	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.h	128;"	m	line:128	struct:_setupPacketStruct
 feature	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	582;"	l	line:582
 hidIdleRate	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	70;"	v	line:70
 hidProtocol	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	71;"	v	line:71
 hidRxLen	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	72;"	v	line:72
-i	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	206;"	v	line:206
+i	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	211;"	v	line:211
 i	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	207;"	l	line:207
 i	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	742;"	l	line:742
 i	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	778;"	l	line:778
-i2	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	206;"	v	line:206
+i2	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	211;"	v	line:211
 inPtr	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	65;"	v	line:65
-j	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	1057;"	l	line:1057
-j	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	1371;"	l	line:1371
-j	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	1457;"	l	line:1457
-j	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	2373;"	l	line:2373
-j	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	2465;"	l	line:2465
-j	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	2531;"	l	line:2531
-k	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	2690;"	l	line:2690
-k	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	2729;"	l	line:2729
-k	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	2788;"	l	line:2788
-led_cnt	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	196;"	v	line:196
+j	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	1062;"	l	line:1062
+j	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	1376;"	l	line:1376
+j	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	1462;"	l	line:1462
+j	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	2420;"	l	line:2420
+j	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	2512;"	l	line:2512
+j	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	2578;"	l	line:2578
+j	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	3042;"	l	line:3042
+k	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	2737;"	l	line:2737
+k	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	2776;"	l	line:2776
+k	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	2835;"	l	line:2835
+led_cnt	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	201;"	v	line:201
 low_interrupt	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\main.c	39;"	f	line:39	signature:(void)
-n	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	2373;"	l	line:2373
-number_of_bytes_read	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	194;"	v	line:194
+n	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	2420;"	l	line:2420
+number_of_bytes_read	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	199;"	v	line:199
 outPtr	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	63;"	v	line:63
-pwm	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	203;"	v	line:203
-pwm_maxH	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	204;"	v	line:204
-receive_buffer	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	192;"	v	line:192
+pwm	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	208;"	v	line:208
+pwm_maxH	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	209;"	v	line:209
+receive_buffer	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	197;"	v	line:197
 recipient	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	532;"	l	line:532
 recipient	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	581;"	l	line:581
 remoteWakeup	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	47;"	v	line:47
@@ -427,35 +435,35 @@ setupPacketStruct	C:\Documents and Settings\Alberto\Documenti\Progetti Elettroni
 stringDescriptor0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	157;"	v	line:157
 stringDescriptor1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	162;"	v	line:162
 stringDescriptor2	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	167;"	v	line:167
-t	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	1057;"	l	line:1057
-timeout	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	198;"	v	line:198
-timer_isr	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	3061;"	f	line:3061	signature:(void)
+t	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	1062;"	l	line:1062
+timeout	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	203;"	v	line:203
+timer_isr	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	3216;"	f	line:3216	signature:(void)
 timer_isr	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.h	5;"	p	line:5	signature:(void)
 transferType	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	67;"	v	line:67
-transmit_buffer	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	191;"	v	line:191
-transmit_temp	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	193;"	v	line:193
-tt	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	211;"	v	line:211
-uWCK::LATBbits.LATB1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	152;"	d	line:152	file:
-uWCK_dir::TRISBbits.TRISB1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	151;"	d	line:151	file:
-uWCKnum::1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	153;"	d	line:153	file:
-uWDI::LATBbits.LATB0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	155;"	d	line:155	file:
-uWDI_dir::TRISBbits.TRISB0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	154;"	d	line:154	file:
-uWDInum::0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	156;"	d	line:156	file:
-uWDO::LATCbits.LATC7	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	158;"	d	line:158	file:
-uWDO_dir::TRISCbits.TRISC7	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	157;"	d	line:157	file:
-uWDOnum::7	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	159;"	d	line:159	file:
+transmit_buffer	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	196;"	v	line:196
+transmit_temp	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	198;"	v	line:198
+tt	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	216;"	v	line:216
+uWCK::LATBbits.LATB1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	153;"	d	line:153	file:
+uWCK_dir::TRISBbits.TRISB1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	152;"	d	line:152	file:
+uWCKnum::1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	154;"	d	line:154	file:
+uWDI::LATBbits.LATB0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	156;"	d	line:156	file:
+uWDI_dir::TRISBbits.TRISB0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	155;"	d	line:155	file:
+uWDInum::0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	157;"	d	line:157	file:
+uWDO::LATCbits.LATC7	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	159;"	d	line:159	file:
+uWDO_dir::TRISCbits.TRISC7	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	158;"	d	line:158	file:
+uWDOnum::7	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	160;"	d	line:160	file:
 uWRX::0x3D	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	67;"	d	line:67
 uWTX::0x3C	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	66;"	d	line:66
 uW_INIT::0x3B	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\instructions.h	65;"	d	line:65
-vcc_OFF::LATCbits.LATC1=1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	168;"	d	line:168	file:
-vcc_ON::LATCbits.LATC1=0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	167;"	d	line:167	file:
-vcc_bit::LATCbits.LATC1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	165;"	d	line:165	file:
-vcc_dir::TRISCbits.TRISC1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	166;"	d	line:166	file:
-vpp_OFF::LATCbits.LATC0=0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	172;"	d	line:172	file:
-vpp_ON::LATCbits.LATC0=1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	171;"	d	line:171	file:
-vpp_bit::LATCbits.LATC0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	169;"	d	line:169	file:
-vpp_dir::TRISCbits.TRISC0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	170;"	d	line:170	file:
-vreg	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	205;"	v	line:205
+vcc_OFF::LATCbits.LATC1=1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	173;"	d	line:173	file:
+vcc_ON::LATCbits.LATC1=0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	172;"	d	line:172	file:
+vcc_bit::LATCbits.LATC1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	170;"	d	line:170	file:
+vcc_dir::TRISCbits.TRISC1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	171;"	d	line:171	file:
+vpp_OFF::LATCbits.LATC0=0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	177;"	d	line:177	file:
+vpp_ON::LATCbits.LATC0=1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	176;"	d	line:176	file:
+vpp_bit::LATCbits.LATC0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	174;"	d	line:174	file:
+vpp_dir::TRISCbits.TRISC0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	175;"	d	line:175	file:
+vreg	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	210;"	v	line:210
 wCount	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.c	66;"	v	line:66
 wIndex0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.h	125;"	m	line:125	struct:_setupPacketStruct
 wIndex1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.h	126;"	m	line:126	struct:_setupPacketStruct
@@ -463,4 +471,4 @@ wLength	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Program
 wValue0	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.h	123;"	m	line:123	struct:_setupPacketStruct
 wValue1	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.h	124;"	m	line:124	struct:_setupPacketStruct
 word	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\usb.h	30;"	t	line:30
-x	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	370;"	l	line:370
+x	C:\Documents and Settings\Alberto\Documenti\Progetti Elettronica\Programmatore USB\Firmware\OPcontrol.c	375;"	l	line:375
