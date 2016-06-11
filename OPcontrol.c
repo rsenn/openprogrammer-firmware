@@ -1,7 +1,7 @@
 /*********************************************************************
  * OPcontrol - control firmare for the Open Programmer
  * for more info see: openprog.altervista.org
- * Copyright (C) 2009-2013 Alberto Maccioni
+ * Copyright (C) 2009-2016 Alberto Maccioni
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,15 +22,17 @@
 
 /*********************************************************************
 History
-0.3.0 - initial release; PIC10-12-16-18
-0.4.0 - 1/8/08 added I2C instructions
-0.5.0 - 10/11/08 added SPI, ATMEL instructions
-0.6.0 - 13/6/09 switched to a GPL USB framework, added uW and PIC24 ins.
-0.6.1 - 30/8/09 added software SPI
-0.7.0 - 31/12/09 added and modified PIC24 instructions
-0.7.6 - 1/7/10 modified TX16 & RX16 instructions, conditional code to use 12 bit ADC on 18F2553
-0.8.0 - 30/6/12 added One Wire support, auto-flush tx buffer when rx all processed, fixed PROG_C
-0.9.0 - 25/1/14 added SET_PORT_DIR,AT_HV_RTX,SIX_LONG5; improved DCDC control
+0.3.0  - initial release; PIC10-12-16-18
+0.4.0  - 1/8/08 added I2C instructions
+0.5.0  - 10/11/08 added SPI, ATMEL instructions
+0.6.0  - 13/6/09 switched to a GPL USB framework, added uW and PIC24 ins.
+0.6.1  - 30/8/09 added software SPI
+0.7.0  - 31/12/09 added and modified PIC24 instructions
+0.7.6  - 1/7/10 modified TX16 & RX16 instructions, conditional code to use 12 bit ADC on 18F2553
+0.8.0  - 30/6/12 added One Wire support, auto-flush tx buffer when rx all processed, fixed PROG_C
+0.9.0  - 25/1/14 added SET_PORT_DIR,AT_HV_RTX,SIX_LONG5; improved DCDC control
+0.10.0 - 11/6/16 added LOAD_PC, LOAD_DATA_INC, READ_DATA_INC, JTAG_SET_MODE, JTAG_SEND_CMD, JTAG_XFER_DATA, JTAG_XFER_F_DATA, 
+				 new USB VID&PID (0x1209,0x5432), changed some CK timing, reduced CLOCK_GEN startup time
 *********************************************************************
 Map of peripherals
 
@@ -72,9 +74,9 @@ software SPI
 #include "instructions.h"
 
 //********Misc.********
-#define VERSION "0.9.0"
+#define VERSION "0.10.0"
 #define VER2	0
-#define VER1	9
+#define VER1	10
 #define VER0	0
 #define ID2	0
 #define ID1	0
@@ -120,8 +122,9 @@ software SPI
 #define CK1()  		CK_bit=1
 #define CKin() 		CKdir_bit=1
 #define CKout()		CKdir_bit=0
-#define CKpulse()  	CK_bit=1; CK_bit=0
+#define CKpulse()  	{CK_bit=1; CK_bit=0;}
 #define CKpulseL() 	{Nop(); CK_bit=1; Nop(); Nop(); Nop(); CK_bit=0;}
+#define CKpulseN()  {CK_bit=1; Nop(); CK_bit=0; Nop();}
 #define PGMnum 		7
 #define PGMlat 		LATB
 #define PGMport 	PORTB
@@ -162,6 +165,12 @@ software SPI
 #define PB2 		1
 #define PB0 		7
 #define PB3 		6
+#define TCKnum 		6
+#define TDInum 		7
+#define TDOnum 		5
+#define TMSnum 		4
+#define TCKpulse()  	{LABbits.LATB6=1; LABbits.LATB6=0;}
+
 //***************PORTA*****************
 #define LED1		LATAbits.LATA1
 #define LED2		LATAbits.LATA2
@@ -188,7 +197,7 @@ software SPI
 #pragma romdata eedata=0xF00000
 rom char eestr[]="Open Programmer v. ";
 rom char eestr2[]=VERSION;
-rom char eestr3[]=" - Copyright (C) 2009-2012 Alberto Maccioni - This is free software";
+rom char eestr3[]=" - Copyright (C) 2009-2016 Alberto Maccioni - This is free software";
 #endif
 
 #pragma udata
@@ -209,7 +218,7 @@ near int pwm=0;
 near byte pwm_maxH=100,T1=1;
 near int volatile err=0,errz=0,vreg=13.0*Vcost;
 near byte i=0,i2=0,RES0=0,RES1=0,RES2=0,RES3=0;
-near int d=0;
+near int d=0,dH=0; 
 #if defined(SW_SPI)||defined(SW_I2C)
 near unsigned char I2C_BUFFER=0;    // temp buffer for R/W operations
 near unsigned char BIT_COUNTER=0;   // temp buffer for bit counting
@@ -608,19 +617,19 @@ void ParseCommands(void)
 				if(PGMdir_bit) i|=32;
 				TXins(i);
 				break;
-			case LOAD_CONF:				//Load configuration 000000, 14 bit data [20us]
+			case LOAD_CONF:				//Load configuration 000000, 14 bit data [22us]
 				TXins(LOAD_CONF);
 				if(RXptr+2<number_of_bytes_read){
 					HIBYTE(d)=receive_buffer[++RXptr];
 					LOBYTE(d)=receive_buffer[++RXptr];
 					INTCONbits.GIE=0;
 					D0();
-					CKpulse();
-					CKpulse();
-					CKpulse();
-					CKpulse();
-					CKpulse();
-					CKpulse();
+					CKpulseN();
+					CKpulseN();
+					CKpulseN();
+					CKpulseN();
+					CKpulseN();
+					CKpulseN();
 					for(i=T1;i;i--){	//T1 us
 						Nop();
 						Nop();
@@ -630,23 +639,24 @@ void ParseCommands(void)
 						Nop();
 						Nop();
 					}
-					CKpulse();		//start bit
+					CKpulseN();		//start bit
 					_asm
 					MOVLW	14
 					movwf	i,0
 					ciclo_c1:
 					RRCF	d+1,1,0
 					RRCF	d,1,0
-					BCF 	PORTB,Dnum,0	//D0();
+					BCF 	LATB,Dnum,0	//D0();
 					BTFSC 	STATUS,0,0		//Carry
-					BSF 	PORTB,Dnum,0	//D1();
-					BSF 	PORTB,CKnum,0	//CKpulse();
-					BCF 	PORTB,CKnum,0
+					BSF 	LATB,Dnum,0	//D1();
+					BSF 	LATB,CKnum,0	//CKpulseN();
+					nop
+					BCF 	LATB,CKnum,0
 					decfsz	i,1,0
 					BRA ciclo_c1
 					_endasm
 					D0();
-					CKpulse();	//Stop bit
+					CKpulseN();	//Stop bit
 					INTCONbits.GIE=1;
 				}
 				else{
@@ -654,23 +664,21 @@ void ParseCommands(void)
 					receive_buffer[RXptr+1]=FLUSH;
 				}
 				break;
-			case LOAD_DATA_PROG:			//Load data in program memory 000010, 14 bit data [20us]
+			case LOAD_DATA_PROG:			//Load data in program memory 000010, 14 bit data [22us]
 				TXins(LOAD_DATA_PROG);
 				if(RXptr+2<number_of_bytes_read){
 					HIBYTE(d)=receive_buffer[++RXptr];
 					LOBYTE(d)=receive_buffer[++RXptr];
 					INTCONbits.GIE=0;
 					D0();
-					CKpulse();
-					Nop();
+					CKpulseN();
 					D1();
-					CKpulse();
-					Nop();
+					CKpulseN();
 					D0();
-					CKpulse();
-					CKpulse();
-					CKpulse();
-					CKpulse();
+					CKpulseN();
+					CKpulseN();
+					CKpulseN();
+					CKpulseN();
 					for(i=T1;i;i--){	//T1 us
 						Nop();
 						Nop();
@@ -680,23 +688,24 @@ void ParseCommands(void)
 						Nop();
 						Nop();
 					}
-					CKpulse();		//start bit
+					CKpulseN();		//start bit
 					_asm
 					MOVLW	14
 					movwf	i,0
 					ciclo_l1:
 					RRCF	d+1,1,0
 					RRCF	d,1,0
-					BCF 	PORTB,Dnum,0	//D0();
+					BCF 	LATB,Dnum,0	//D0();
 					BTFSC 	STATUS,0,0		//Carry
-					BSF 	PORTB,Dnum,0	//D1();
-					BSF 	PORTB,CKnum,0	//CKpulse();
-					BCF 	PORTB,CKnum,0
+					BSF 	LATB,Dnum,0	//D1();
+					BSF 	LATB,CKnum,0	//CKpulseN();
+					nop
+					BCF 	LATB,CKnum,0
 					decfsz	i,1,0
 					BRA ciclo_l1
 					_endasm
 					D0();
-					CKpulse();	//Stop bit
+					CKpulseN();	//Stop bit
 					INTCONbits.GIE=1;
 				}
 				else{
@@ -704,20 +713,19 @@ void ParseCommands(void)
 					receive_buffer[RXptr+1]=FLUSH;
 				}
 				break;
-			case LOAD_DATA_DATA:			//Load data in data memory 000011, 8 bit data [15us]
+			case LOAD_DATA_DATA:			//Load data in data memory 000011, 8 bit data [17us]
 				TXins(LOAD_DATA_DATA);
 				if(RXptr+1<number_of_bytes_read){
 					LOBYTE(d)=receive_buffer[++RXptr];
 					INTCONbits.GIE=0;
 					D1();
-					CKpulse();
-					CKpulse();
-					Nop();
+					CKpulseN();
+					CKpulseN();
 					D0();
-					CKpulse();
-					CKpulse();
-					CKpulse();
-					CKpulse();
+					CKpulseN();
+					CKpulseN();
+					CKpulseN();
+					CKpulseN();
 					for(i=T1;i;i--){	//T1 us
 						Nop();
 						Nop();
@@ -727,28 +735,29 @@ void ParseCommands(void)
 						Nop();
 						Nop();
 					}
-					CKpulse();		//start bit
+					CKpulseN();		//start bit
 					_asm
 					MOVLW	8
 					movwf	i,0
 					ciclo_l2:
 					RRCF	d,1,0
-					BCF 	PORTB,Dnum,0	//D0();
+					BCF 	LATB,Dnum,0	//D0();
 					BTFSC 	STATUS,0,0		//Carry
-					BSF 	PORTB,Dnum,0	//D1();
-					BSF 	PORTB,CKnum,0	//CKpulse();
-					BCF 	PORTB,CKnum,0
+					BSF 	LATB,Dnum,0	//D1();
+					BSF 	LATB,CKnum,0	//CKpulseN();
+					nop
+					BCF 	LATB,CKnum,0
 					decfsz	i,1,0
 					BRA ciclo_l2
 					_endasm
 					D0();
-					CKpulse();	//bit 10
-					CKpulse();
-					CKpulse();
-					CKpulse();
-					CKpulse();
-					CKpulse();	//MSB
-					CKpulse();	//Stop bit
+					CKpulseN();	//bit 10
+					CKpulseN();
+					CKpulseN();
+					CKpulseN();
+					CKpulseN();
+					CKpulseN();	//MSB
+					CKpulseN();	//Stop bit
 					INTCONbits.GIE=1;
 				}
 				else{
@@ -756,20 +765,18 @@ void ParseCommands(void)
 					receive_buffer[RXptr+1]=FLUSH;
 				}
 				break;
-			case READ_DATA_PROG:			//Read data from program memory 000100 [25us]
+			case READ_DATA_PROG:			//Read data from program memory 000100 [27us]
 				TXins(READ_DATA_PROG);
 				INTCONbits.GIE=0;
 				D0();
-				CKpulse();
-				CKpulse();
-				Nop();
+				CKpulseN();
+				CKpulseN();
 				D1();
-				CKpulse();
-				Nop();
+				CKpulseN();
 				D0();
-				CKpulse();
-				CKpulse();
-				CKpulse();
+				CKpulseN();
+				CKpulseN();
+				CKpulseN();
 				Ddir_bit=1;		//Input
 				for(i=T1;i;i--){	//T1 us
 						Nop();
@@ -780,14 +787,16 @@ void ParseCommands(void)
 						Nop();
 						Nop();
 					}
-				CKpulse();		//start bit
+				CKpulseN();		//start bit
 				_asm
 				MOVLW	14
 				movwf	i,0
 				ciclo_r1:
 				BSF 	LATB,CKnum,0
+				nop
 				BCF 	LATB,CKnum,0
 				BCF 	STATUS,0,0		//Carry
+				BCF 	LATB,CKnum,0
 				BTFSC	PORTB,Dnum,0
 				BSF 	STATUS,0,0		//Carry
 				RRCF	d+1,1,0
@@ -808,22 +817,19 @@ void ParseCommands(void)
 				TXins(HIBYTE(d));
 				TXins(LOBYTE(d));
 				break;
-			case READ_DATA_DATA:			//Read data from data memory 000101 [16us]
+			case READ_DATA_DATA:			//Read data from data memory 000101 [19us]
 				TXins(READ_DATA_DATA);
 				INTCONbits.GIE=0;
 				D1();
-				CKpulse();
-				Nop();
+				CKpulseN();
 				D0();
-				CKpulse();
-				Nop();
+				CKpulseN();
 				D1();
-				CKpulse();
-				Nop();
+				CKpulseN();
 				D0();
-				CKpulse();
-				CKpulse();
-				CKpulse();
+				CKpulseN();
+				CKpulseN();
+				CKpulseN();
 				Ddir_bit=1;		//Input
 				for(i=T1;i;i--){	//T1 us
 						Nop();
@@ -834,12 +840,13 @@ void ParseCommands(void)
 						Nop();
 						Nop();
 					}
-				CKpulse();		//start bit
+				CKpulseN();		//start bit
 				_asm
 				MOVLW	8
 				movwf	i,0
 				ciclo_r3:
 				BSF 	LATB,CKnum,0
+				nop
 				BCF 	LATB,CKnum,0
 				BCF 	STATUS,0,0		//Carry
 				BTFSC	PORTB,Dnum,0
@@ -848,31 +855,30 @@ void ParseCommands(void)
 				decfsz	i,1,0
 				BRA ciclo_r3
 				_endasm
-				CKpulse();	//bit 10
-				CKpulse();
-				CKpulse();
-				CKpulse();
-				CKpulse();
-				CKpulse();	//MSB
+				CKpulseN();	//bit 10
+				CKpulseN();
+				CKpulseN();
+				CKpulseN();
+				CKpulseN();
+				CKpulseN();	//MSB
 				CK1();	//Stop bit
 				Ddir_bit=0;		//Output
 				CK0();	//Stop bit
 				INTCONbits.GIE=1;
 				TXins(LOBYTE(d));
 				break;
-			case INC_ADDR:				//Increment address 000110 [4us]
+			case INC_ADDR:				//Increment address 000110 [5us]
 				TXins(INC_ADDR);
 				INTCONbits.GIE=0;
 				D0();
-				CKpulse();
-				Nop();
+				CKpulseN();
 				D1();
-				CKpulse();
-				CKpulse();
+				CKpulseN();
+				CKpulseN();
 				D0();
-				CKpulse();
-				CKpulse();
-				CKpulse();
+				CKpulseN();
+				CKpulseN();
+				CKpulseN();
 				INTCONbits.GIE=1;
 				break;
 			case INC_ADDR_N:			//Increment address 000110 (N times) [(4+3.3*N)us]
@@ -881,15 +887,14 @@ void ParseCommands(void)
 					INTCONbits.GIE=0;
 					for(LOBYTE(d)=receive_buffer[++RXptr];LOBYTE(d);LOBYTE(d)--){
 						D0();
-						CKpulse();
-						Nop();
+						CKpulseN();
 						D1();
-						CKpulse();
-						CKpulse();
+						CKpulseN();
+						CKpulseN();
 						D0();
-						CKpulse();
-						CKpulse();
-						CKpulse();
+						CKpulseN();
+						CKpulseN();
+						CKpulseN();
 						for(i=T1;i;i--){	//T1 us
 							Nop();
 							Nop();
@@ -911,122 +916,103 @@ void ParseCommands(void)
 				TXins(BEGIN_PROG);
 				INTCONbits.GIE=0;
 				D0();
-				CKpulse();
-				CKpulse();
-				CKpulse();
-				Nop();
+				CKpulseN();
+				CKpulseN();
+				CKpulseN();
 				D1();
-				CKpulse();
-				Nop();
+				CKpulseN();
 				D0();
-				CKpulse();
-				CKpulse();
+				CKpulseN();
+				CKpulseN();
 				INTCONbits.GIE=1;
 				break;
 			case BULK_ERASE_PROG:		//Bulk erase program memory 001001 [4.5us]
 				TXins(BULK_ERASE_PROG);
 				INTCONbits.GIE=0;
 				D1();
-				CKpulse();
-				Nop();
+				CKpulseN();
 				D0();
-				CKpulse();
-				CKpulse();
-				Nop();
+				CKpulseN();
+				CKpulseN();
 				D1();
-				CKpulse();
-				Nop();
+				CKpulseN();
 				D0();
-				CKpulse();
-				CKpulse();
+				CKpulseN();
+				CKpulseN();
 				INTCONbits.GIE=1;
 				break;
 			case END_PROG:				//End programming 001010 [4.5us]
 				TXins(END_PROG);
 				INTCONbits.GIE=0;
 				D0();
-				CKpulse();
-				Nop();
+				CKpulseN();
 				D1();
-				CKpulse();
-				Nop();
+				CKpulseN();
 				D0();
-				CKpulse();
-				Nop();
+				CKpulseN();
 				D1();
-				CKpulse();
-				Nop();
+				CKpulseN();
 				D0();
-				CKpulse();
-				CKpulse();
+				CKpulseN();
+				CKpulseN();
 				INTCONbits.GIE=1;
 				break;
 			case BULK_ERASE_DATA:		//Bulk erase data memory 001011 [4.5us]
 				TXins(BULK_ERASE_DATA);
 				INTCONbits.GIE=0;
 				D1();
-				CKpulse();
-				CKpulse();
-				Nop();
+				CKpulseN();
+				CKpulseN();
 				D0();
-				CKpulse();
-				Nop();
+				CKpulseN();
 				D1();
-				CKpulse();
-				Nop();
+				CKpulseN();
 				D0();
-				CKpulse();
-				CKpulse();
+				CKpulseN();
+				CKpulseN();
 				INTCONbits.GIE=1;
 				break;
 			case END_PROG2:				//End programming 2 001110 [4.5us]
 				TXins(END_PROG2);
 				INTCONbits.GIE=0;
 				D0();
-				CKpulse();
-				Nop();
+				CKpulseN();
 				D1();
-				CKpulse();
-				CKpulse();
-				CKpulse();
-				Nop();
+				CKpulseN();
+				CKpulseN();
+				CKpulseN();
 				D0();
-				CKpulse();
-				CKpulse();
+				CKpulseN();
+				CKpulseN();
 				INTCONbits.GIE=1;
 				break;
 			case ROW_ERASE_PROG:		//Row erase program memory 010001 [4.5us]
 				TXins(ROW_ERASE_PROG);
 				INTCONbits.GIE=0;
 				D1();
-				CKpulse();
-				Nop();
+				CKpulseN();
 				D0();
-				CKpulse();
-				CKpulse();
-				CKpulse();
-				Nop();
+				CKpulseN();
+				CKpulseN();
+				CKpulseN();
 				D1();
-				CKpulse();
-				Nop();
+				CKpulseN();
 				D0();
-				CKpulse();
+				CKpulseN();
 				INTCONbits.GIE=1;
 				break;
 			case BEGIN_PROG2:			//Begin programming 2 011000 [4.5us]
 				TXins(BEGIN_PROG2);
 				INTCONbits.GIE=0;
 				D0();
-				CKpulse();
-				CKpulse();
-				CKpulse();
-				Nop();
+				CKpulseN();
+				CKpulseN();
+				CKpulseN();
 				D1();
-				CKpulse();
-				CKpulse();
-				Nop();
+				CKpulseN();
+				CKpulseN();
 				D0();
-				CKpulse();
+				CKpulseN();
 				INTCONbits.GIE=1;
 				break;
 			case CUST_CMD:			//Custom command [9us]
@@ -1039,11 +1025,12 @@ void ParseCommands(void)
 					movwf	i,0
 					ciclo_c2:
 					RRCF	d,1,0
-					BCF 	PORTB,Dnum,0	//D0();
+					BCF 	LATB,Dnum,0	//D0();
 					BTFSC 	STATUS,0,0		//Carry
-					BSF 	PORTB,Dnum,0	//D1();
-					BSF 	PORTB,CKnum,0	//CKpulse();
-					BCF 	PORTB,CKnum,0
+					BSF 	LATB,Dnum,0	//D1();
+					BSF 	LATB,CKnum,0	//CKpulseN();
+					nop
+					BCF 	LATB,CKnum,0
 					decfsz	i,1,0
 					BRA ciclo_c2
 					_endasm
@@ -1065,16 +1052,14 @@ void ParseCommands(void)
 					t=d;
 					INTCONbits.GIE=0;
 					D0();		//load data 000010
-					CKpulse();
-					Nop();
+					CKpulseN();
 					D1();
-					CKpulse();
-					Nop();
+					CKpulseN();
 					D0();
-					CKpulse();
-					CKpulse();
-					CKpulse();
-					CKpulse();
+					CKpulseN();
+					CKpulseN();
+					CKpulseN();
+					CKpulseN();
 					for(i=T1;i;i--){	//T1 us
 						Nop();
 						Nop();
@@ -1084,35 +1069,34 @@ void ParseCommands(void)
 						Nop();
 						Nop();
 					}
-					CKpulse();		//start bit
+					CKpulseN();		//start bit
 					_asm
 					MOVLW	14
 					movwf	i,0
 					ciclo_p1:
 					RRCF	d+1,1,0
 					RRCF	d,1,0
-					BCF 	PORTB,Dnum,0	//D0();
+					BCF 	LATB,Dnum,0	//D0();
 					BTFSC 	STATUS,0,0		//Carry
-					BSF 	PORTB,Dnum,0	//D1();
-					BSF 	PORTB,CKnum,0	//CKpulse();
-					BCF 	PORTB,CKnum,0
+					BSF 	LATB,Dnum,0	//D1();
+					BSF 	LATB,CKnum,0	//CKpulseN();
+					nop
+					BCF 	LATB,CKnum,0
 					decfsz	i,1,0
 					BRA ciclo_p1
 					_endasm
 					D0();
-					CKpulse();	//Stop bit
+					CKpulseN();	//Stop bit
 					for(j=0;j<M;j++){
 						D0();	//001000 BEGIN PROG
-						CKpulse();
-						CKpulse();
-						CKpulse();
-						Nop();
+						CKpulseN();
+						CKpulseN();
+						CKpulseN();
 						D1();
-						CKpulse();
-						Nop();
+						CKpulseN();
 						D0();
-						CKpulse();
-						CKpulse();
+						CKpulseN();
+						CKpulseN();
 						for(i=T2;i;i--){	//100us
 							Nop();
 							Nop();
@@ -1123,16 +1107,14 @@ void ParseCommands(void)
 							Nop();
 						}
 						D0();	//End programming 2 001110
-						CKpulse();
-						Nop();
+						CKpulseN();
 						D1();
-						CKpulse();
-						CKpulse();
-						CKpulse();
-						Nop();
+						CKpulseN();
+						CKpulseN();
+						CKpulseN();
 						D0();
-						CKpulse();
-						CKpulse();
+						CKpulseN();
+						CKpulseN();
 						for(i=T1;i;i--){	//1us
 							Nop();
 							Nop();
@@ -1143,16 +1125,14 @@ void ParseCommands(void)
 							Nop();
 						}
 						D0();	//READ_PROG    000100
-						CKpulse();
-						CKpulse();
-						Nop();
+						CKpulseN();
+						CKpulseN();
 						D1();
-						CKpulse();
-						Nop();
+						CKpulseN();
 						D0();
-						CKpulse();
-						CKpulse();
-						CKpulse();
+						CKpulseN();
+						CKpulseN();
+						CKpulseN();
 						Ddir_bit=1;		//Input
 						for(i=T1;i;i--){	//T1 us
 								Nop();
@@ -1163,12 +1143,13 @@ void ParseCommands(void)
 								Nop();
 								Nop();
 							}
-						CKpulse();		//start bit
+						CKpulseN();		//start bit
 						_asm
 						MOVLW	14
 						movwf	i,0
 						ciclo_p2:
 						BSF 	LATB,CKnum,0
+						nop
 						BCF 	LATB,CKnum,0
 						BCF 	STATUS,0,0		//Carry
 						BTFSC	PORTB,Dnum,0
@@ -1207,16 +1188,14 @@ void ParseCommands(void)
 						TXins(i);
 						for(j=i*N;j;j--){
 							D0();	//001000 BEGIN PROG
-							CKpulse();
-							CKpulse();
-							CKpulse();
-							Nop();
+							CKpulseN();
+							CKpulseN();
+							CKpulseN();
 							D1();
-							CKpulse();
-							Nop();
+							CKpulseN();
 							D0();
-							CKpulse();
-							CKpulse();
+							CKpulseN();
+							CKpulseN();
 							for(i=T2;i;i--){	//100us
 								Nop();
 								Nop();
@@ -1227,16 +1206,14 @@ void ParseCommands(void)
 								Nop();
 							}
 							D0();	//End programming 2 001110
-							CKpulse();
-							Nop();
+							CKpulseN();
 							D1();
-							CKpulse();
-							CKpulse();
-							CKpulse();
-							Nop();
+							CKpulseN();
+							CKpulseN();
+							CKpulseN();
 							D0();
-							CKpulse();
-							CKpulse();
+							CKpulseN();
+							CKpulseN();
 							for(i=T1;i;i--){	//1us
 								Nop();
 								Nop();
@@ -1256,7 +1233,167 @@ void ParseCommands(void)
 					receive_buffer[RXptr+1]=FLUSH;
 				}
 				break;
-			case CORE_INS:				//Core instruction (PIC18) 0000, 16 bit data [20us]
+			case LOAD_PC:				//Load PC address 011101, 16 bit data (tot 6+24 pulses)[26us]
+				TXins(LOAD_PC);
+				if(RXptr+2<number_of_bytes_read){
+					HIBYTE(d)=receive_buffer[++RXptr];
+					LOBYTE(d)=receive_buffer[++RXptr];
+					INTCONbits.GIE=0;
+					D1();
+					CKpulseN();
+					D0();
+					CKpulseN();
+					D1();
+					CKpulseN();
+					CKpulseN();
+					CKpulseN();
+					D0();
+					CKpulseN();
+					for(i=T1;i;i--){	//T1 us
+						Nop();
+						Nop();
+						Nop();
+						Nop();
+						Nop();
+						Nop();
+						Nop();
+					}
+					CKpulseN();		//start bit
+					_asm
+					MOVLW	16
+					movwf	i,0
+					ciclo_c3:
+					RRCF	d+1,1,0
+					RRCF	d,1,0
+					BCF 	LATB,Dnum,0	//D0();
+					BTFSC 	STATUS,0,0		//Carry
+					BSF 	LATB,Dnum,0	//D1();
+					BSF 	LATB,CKnum,0	//CKpulseN();
+					nop
+					BCF 	LATB,CKnum,0
+					decfsz	i,1,0
+					BRA ciclo_c3
+					_endasm
+					D0();
+					CKpulseN();	//Stop bit
+					CKpulseN();
+					CKpulseN();
+					CKpulseN();
+					CKpulseN();
+					CKpulseN();
+					CKpulseN();
+					INTCONbits.GIE=1;
+				}
+				else{
+					TXins(RX_ERR);
+					receive_buffer[RXptr+1]=FLUSH;
+				}
+				break;
+			case LOAD_DATA_INC:			//Load data in NVM memory and increase address 100010, 14 bit data [22us]
+				TXins(LOAD_DATA_INC);
+				if(RXptr+2<number_of_bytes_read){
+					HIBYTE(d)=receive_buffer[++RXptr];
+					LOBYTE(d)=receive_buffer[++RXptr];
+					INTCONbits.GIE=0;
+					D0();
+					CKpulseN();
+					D1();
+					CKpulseN();
+					D0();
+					CKpulseN();
+					CKpulseN();
+					CKpulseN();
+					D1();
+					CKpulseN();
+					for(i=T1;i;i--){	//T1 us
+						Nop();
+						Nop();
+						Nop();
+						Nop();
+						Nop();
+						Nop();
+						Nop();
+					}
+					D0();
+					CKpulseN();		//start bit
+					_asm
+					MOVLW	14
+					movwf	i,0
+					ciclo_l3:
+					RRCF	d+1,1,0
+					RRCF	d,1,0
+					BCF 	LATB,Dnum,0	//D0();
+					BTFSC 	STATUS,0,0		//Carry
+					BSF 	LATB,Dnum,0	//D1();
+					BSF 	LATB,CKnum,0	//CKpulseN();
+					nop
+					BCF 	LATB,CKnum,0
+					decfsz	i,1,0
+					BRA ciclo_l3
+					_endasm
+					D0();
+					CKpulseN();	//Stop bit
+					INTCONbits.GIE=1;
+				}
+				else{
+					TXins(RX_ERR);
+					receive_buffer[RXptr+1]=FLUSH;
+				}
+				break;
+			case READ_DATA_INC:			//Read data from NVM memory and increase address 100100 [29us]
+				TXins(READ_DATA_INC);
+				INTCONbits.GIE=0;
+				D0();
+				CKpulseN();
+				CKpulseN();
+				D1();
+				CKpulseN();
+				D0();
+				CKpulseN();
+				CKpulseN();
+				D1();
+				CKpulseN();
+				Ddir_bit=1;		//Input
+				for(i=T1;i;i--){	//T1 us
+						Nop();
+						Nop();
+						Nop();
+						Nop();
+						Nop();
+						Nop();
+						Nop();
+					}
+				D0();
+				CKpulseN();		//start bit
+				_asm
+				MOVLW	14
+				movwf	i,0
+				ciclo_r4:
+				BSF 	LATB,CKnum,0
+				nop
+				BCF 	LATB,CKnum,0
+				BCF 	STATUS,0,0		//Carry
+				BTFSC	PORTB,Dnum,0
+				BSF 	STATUS,0,0		//Carry
+				RRCF	d+1,1,0
+				RRCF	d,1,0
+				decfsz	i,1,0
+				BRA ciclo_r4
+				BCF 	STATUS,0,0		//Carry
+				RRCF	d+1,1,0
+				RRCF	d,1,0
+				BCF 	STATUS,0,0		//Carry
+				RRCF	d+1,1,0
+				RRCF	d,1,0
+				_endasm
+				CK1();	//Stop bit
+				Ddir_bit=0;		//Output
+				CK0();	//Stop bit
+				INTCONbits.GIE=1;
+				TXins(HIBYTE(d));
+				TXins(LOBYTE(d));
+				break;
+			case CORE_INS:				//Core instruction (PIC18) 0000, 16 bit data [22us]
 				TXins(CORE_INS);
 				if(RXptr+2<number_of_bytes_read){
 					INTCONbits.GIE=0;
@@ -1264,9 +1401,9 @@ void ParseCommands(void)
 					Ddir_bit=0;		//Output
 					D0();
 					CK0();
-					CKpulse();
-					CKpulse();
-					CKpulse();
+					CKpulseN();
+					CKpulseN();
+					CKpulseN();
 					HIBYTE(d)=receive_buffer[++RXptr];
 					LOBYTE(d)=receive_buffer[++RXptr];
 					_asm
@@ -1275,11 +1412,12 @@ void ParseCommands(void)
 					ciclo_r181:
 					RRCF	d+1,1,0
 					RRCF	d,1,0
-					BCF 	PORTB,Dnum,0	//D0();
+					BCF 	LATB,Dnum,0	//D0();
 					BTFSC 	STATUS,0,0		//Carry
-					BSF 	PORTB,Dnum,0	//D1();
-					BSF 	PORTB,CKnum,0	//CKpulse();
-					BCF 	PORTB,CKnum,0
+					BSF 	LATB,Dnum,0	//D1();
+					BSF 	LATB,CKnum,0	//CKpulseN();
+					nop
+					BCF 	LATB,CKnum,0
 					decfsz	i,1,0
 					BRA 	ciclo_r181
 					fine_r181:
@@ -1317,8 +1455,8 @@ void ParseCommands(void)
 				MOVLW	8
 				movwf	i,0
 				ciclo_r182:
-				BSF 	PORTB,CKnum,0	//CKpulse();
-				BCF 	PORTB,CKnum,0
+				BSF 	LATB,CKnum,0	//CKpulse();
+				BCF 	LATB,CKnum,0
 				BCF 	STATUS,0,0		//Carry
 				BTFSC 	PORTB,Dnum,0
 				BSF 	STATUS,0,0		//Carry
@@ -1356,8 +1494,8 @@ void ParseCommands(void)
 				MOVLW	8
 				movwf	i,0
 				ciclo_r183:
-				BSF 	PORTB,CKnum,0	//CKpulse();
-				BCF 	PORTB,CKnum,0
+				BSF 	LATB,CKnum,0	//CKpulse();
+				BCF 	LATB,CKnum,0
 				BCF 	STATUS,0,0		//Carry
 				BTFSC 	PORTB,Dnum,0
 				BSF 	STATUS,0,0		//Carry
@@ -1400,8 +1538,8 @@ void ParseCommands(void)
 						MOVLW	8
 						movwf	i,0
 						ciclo_r184:
-						BSF 	PORTB,CKnum,0	//CKpulse();
-						BCF 	PORTB,CKnum,0
+						BSF 	LATB,CKnum,0	//CKpulse();
+						BCF 	LATB,CKnum,0
 						BCF 	STATUS,0,0		//Carry
 						BTFSC 	PORTB,Dnum,0
 						BSF 	STATUS,0,0		//Carry
@@ -1439,11 +1577,11 @@ void ParseCommands(void)
 					ciclo_r187:
 					RRCF	d+1,1,0
 					RRCF	d,1,0
-					BCF 	PORTB,Dnum,0	//D0();
+					BCF 	LATB,Dnum,0	//D0();
 					BTFSC 	STATUS,0,0		//Carry
-					BSF 	PORTB,Dnum,0	//D1();
-					BSF 	PORTB,CKnum,0	//CKpulse();
-					BCF 	PORTB,CKnum,0
+					BSF 	LATB,Dnum,0	//D1();
+					BSF 	LATB,CKnum,0	//CKpulse();
+					BCF 	LATB,CKnum,0
 					decfsz	i,1,0
 					BRA 	ciclo_r187
 					_endasm
@@ -1479,11 +1617,11 @@ void ParseCommands(void)
 						ciclo_r188:
 						RRCF	d+1,1,0
 						RRCF	d,1,0
-						BCF 	PORTB,Dnum,0	//D0();
+						BCF 	LATB,Dnum,0	//D0();
 						BTFSC 	STATUS,0,0		//Carry
-						BSF 	PORTB,Dnum,0	//D1();
-						BSF 	PORTB,CKnum,0	//CKpulse();
-						BCF 	PORTB,CKnum,0
+						BSF 	LATB,Dnum,0	//D1();
+						BSF 	LATB,CKnum,0	//CKpulse();
+						BCF 	LATB,CKnum,0
 						decfsz	i,1,0
 						BRA 	ciclo_r188
 						_endasm
@@ -1515,11 +1653,11 @@ void ParseCommands(void)
 					ciclo_r189:
 					RRCF	d+1,1,0
 					RRCF	d,1,0
-					BCF 	PORTB,Dnum,0	//D0();
+					BCF 	LATB,Dnum,0	//D0();
 					BTFSC 	STATUS,0,0		//Carry
-					BSF 	PORTB,Dnum,0	//D1();
-					BSF 	PORTB,CKnum,0	//CKpulse();
-					BCF 	PORTB,CKnum,0
+					BSF 	LATB,Dnum,0	//D1();
+					BSF 	LATB,CKnum,0	//CKpulse();
+					BCF 	LATB,CKnum,0
 					decfsz	i,1,0
 					BRA 	ciclo_r189
 					_endasm
@@ -1576,11 +1714,11 @@ void ParseCommands(void)
 					ciclo_r190:
 					RRCF	d+1,1,0
 					RRCF	d,1,0
-					BCF 	PORTB,Dnum,0	//D0();
+					BCF 	LATB,Dnum,0	//D0();
 					BTFSC 	STATUS,0,0		//Carry
-					BSF 	PORTB,Dnum,0	//D1();
-					BSF 	PORTB,CKnum,0	//CKpulse();
-					BCF 	PORTB,CKnum,0
+					BSF 	LATB,Dnum,0	//D1();
+					BSF 	LATB,CKnum,0	//CKpulse();
+					BCF 	LATB,CKnum,0
 					decfsz	i,1,0
 					BRA 	ciclo_r190
 					_endasm
@@ -1629,11 +1767,11 @@ void ParseCommands(void)
 					movwf	i,0
 					ciclo_r191:
 					RRCF	d,1,0
-					BCF 	PORTB,Dnum,0	//D0();
+					BCF 	LATB,Dnum,0	//D0();
 					BTFSC 	STATUS,0,0		//Carry
-					BSF 	PORTB,Dnum,0	//D1();
-					BSF 	PORTB,CKnum,0	//CKpulse();
-					BCF 	PORTB,CKnum,0
+					BSF 	LATB,Dnum,0	//D1();
+					BSF 	LATB,CKnum,0	//CKpulse();
+					BCF 	LATB,CKnum,0
 					decfsz	i,1,0
 					BRA 	ciclo_r191
 					_endasm
@@ -1645,11 +1783,11 @@ void ParseCommands(void)
 					ciclo_r192:
 					RRCF	d+1,1,0
 					RRCF	d,1,0
-					BCF 	PORTB,Dnum,0	//D0();
+					BCF 	LATB,Dnum,0	//D0();
 					BTFSC 	STATUS,0,0		//Carry
-					BSF 	PORTB,Dnum,0	//D1();
-					BSF 	PORTB,CKnum,0	//CKpulse();
-					BCF 	PORTB,CKnum,0
+					BSF 	LATB,Dnum,0	//D1();
+					BSF 	LATB,CKnum,0	//CKpulse();
+					BCF 	LATB,CKnum,0
 					decfsz	i,1,0
 					BRA 	ciclo_r192
 					_endasm
@@ -1673,11 +1811,11 @@ void ParseCommands(void)
 					movwf	i,0
 					ciclo_r193:
 					RRCF	d,1,0
-					BCF 	PORTB,Dnum,0	//D0();
+					BCF 	LATB,Dnum,0	//D0();
 					BTFSC 	STATUS,0,0		//Carry
-					BSF 	PORTB,Dnum,0	//D1();
-					BSF 	PORTB,CKnum,0	//CKpulse();
-					BCF 	PORTB,CKnum,0
+					BSF 	LATB,Dnum,0	//D1();
+					BSF 	LATB,CKnum,0	//CKpulse();
+					BCF 	LATB,CKnum,0
 					decfsz	i,1,0
 					BRA 	ciclo_r193
 					_endasm
@@ -1694,8 +1832,8 @@ void ParseCommands(void)
 					MOVLW	8
 					movwf	i,0
 					ciclo_r194:
-					BSF 	PORTB,CKnum,0	//CKpulse();
-					BCF 	PORTB,CKnum,0
+					BSF 	LATB,CKnum,0	//CKpulse();
+					BCF 	LATB,CKnum,0
 					BCF 	STATUS,0,0		//Carry
 					BTFSC 	PORTB,Dnum,0
 					BSF 	STATUS,0,0		//Carry
@@ -2254,7 +2392,8 @@ void ParseCommands(void)
 					else{
 						TRISCbits.TRISC2=1;			//PWM1 disable output
 						TRISBbits.TRISB3=0;			//PWM2 enable output
-						TMR3L=TMR3H=0;
+						TMR3H=0xFF;					//precharge near full scale
+						TMR3L=0;
 						T3CON=0b11000001;	//16 bit, source for CCP1 & CCP2, no prescaler
 						CCPR1H=CCPR2H=0x00;
 						//CCPR1=N clock=12MHz/2(N+1)
@@ -2305,15 +2444,15 @@ void ParseCommands(void)
 					RRCF	d,1,0
 					RRCF	i2,1,0
 					BTFSS 	STATUS,0,0		//Carry
-					BCF 	PORTB,Dnum,0	//D0();
+					BCF 	LATB,Dnum,0	//D0();
 					BTFSC 	STATUS,0,0		//Carry
-					BSF 	PORTB,Dnum,0	//D1();
+					BSF 	LATB,Dnum,0	//D1();
 					nop
-					BSF 	PORTB,CKnum,0	//CKpulse();
+					BSF 	LATB,CKnum,0	//CKpulse();
 					nop
 					nop
 					nop
-					BCF 	PORTB,CKnum,0
+					BCF 	LATB,CKnum,0
 					decfsz	i,1,0
 					BRA 	ciclo_r195
 					_endasm
@@ -2346,15 +2485,15 @@ void ParseCommands(void)
 					RRCF	d,1,0
 					RRCF	i2,1,0
 					BTFSS 	STATUS,0,0		//Carry
-					BCF 	PORTB,Dnum,0	//D0();
+					BCF 	LATB,Dnum,0	//D0();
 					BTFSC 	STATUS,0,0		//Carry
-					BSF 	PORTB,Dnum,0	//D1();
+					BSF 	LATB,Dnum,0	//D1();
 					nop
-					BSF 	PORTB,CKnum,0	//CKpulse();
+					BSF 	LATB,CKnum,0	//CKpulse();
 					nop
 					nop
 					nop
-					BCF 	PORTB,CKnum,0
+					BCF 	LATB,CKnum,0
 					decfsz	i,1,0
 					BRA 	ciclo_r196
 					_endasm
@@ -2388,15 +2527,15 @@ void ParseCommands(void)
 					RRCF	d,1,0
 					RRCF	i2,1,0
 					BTFSS 	STATUS,0,0		//Carry
-					BCF 	PORTB,Dnum,0	//D0();
+					BCF 	LATB,Dnum,0	//D0();
 					BTFSC 	STATUS,0,0		//Carry
-					BSF 	PORTB,Dnum,0	//D1();
+					BSF 	LATB,Dnum,0	//D1();
 					nop
-					BSF 	PORTB,CKnum,0	//CKpulse();
+					BSF 	LATB,CKnum,0	//CKpulse();
 					nop
 					nop
 					nop
-					BCF 	PORTB,CKnum,0
+					BCF 	LATB,CKnum,0
 					decfsz	i,1,0
 					BRA 	ciclo_r196b
 					_endasm
@@ -2441,15 +2580,15 @@ void ParseCommands(void)
 						RRCF	d,1,0
 						RRCF	i2,1,0
 						BTFSS 	STATUS,0,0		//Carry
-						BCF 	PORTB,Dnum,0	//D0();
+						BCF 	LATB,Dnum,0	//D0();
 						BTFSC 	STATUS,0,0		//Carry
-						BSF 	PORTB,Dnum,0	//D1();
+						BSF 	LATB,Dnum,0	//D1();
 						nop
-						BSF 	PORTB,CKnum,0	//CKpulse();
+						BSF 	LATB,CKnum,0	//CKpulse();
 						nop
 						nop
 						nop
-						BCF 	PORTB,CKnum,0
+						BCF 	LATB,CKnum,0
 						decfsz	i,1,0
 						BRA 	ciclo_r195b
 						_endasm
@@ -2476,7 +2615,7 @@ void ParseCommands(void)
 				MOVLW	16
 				movwf	i,0
 				ciclo_r197:
-				BSF 	PORTB,CKnum,0	//CKpulse();
+				BSF 	LATB,CKnum,0	//CKpulse();
 				nop
 				nop
 				nop
@@ -2485,7 +2624,7 @@ void ParseCommands(void)
 				BSF 	STATUS,0,0		//Carry
 				RRCF	d+1,1,0
 				RRCF	d,1,0
-				BCF 	PORTB,CKnum,0
+				BCF 	LATB,CKnum,0
 				decfsz	i,1,0
 				BRA 	ciclo_r197
 				_endasm
@@ -2522,11 +2661,11 @@ void ParseCommands(void)
 						RLCF	d,1,0
 						RLCF	d+1,1,0
 						BTFSS 	STATUS,0,0		//Carry
-						BCF 	PORTB,Dnum,0	//D0();
+						BCF 	LATB,Dnum,0	//D0();
 						BTFSC 	STATUS,0,0		//Carry
-						BSF 	PORTB,Dnum,0	//D1();
+						BSF 	LATB,Dnum,0	//D1();
 						nop
-						BSF 	PORTB,CKnum,0	//CKpulse();
+						BSF 	LATB,CKnum,0	//CKpulse();
 						movff	T1,i2
 					ciclo_r198_t1:
 						decf	i2,1,0
@@ -2541,7 +2680,7 @@ void ParseCommands(void)
 						nop
 						BRA 	ciclo_r198_t1
 					ciclo_r198_t2:
-						BCF 	PORTB,CKnum,0
+						BCF 	LATB,CKnum,0
 						movff	T1,i2
 					ciclo_r198_t3:
 						decf	i2,1,0
@@ -2584,7 +2723,7 @@ void ParseCommands(void)
 						MOVLW	16
 						movwf	i,0
 						ciclo_r199:
-						BSF 	PORTB,CKnum,0	//CKpulse();
+						BSF 	LATB,CKnum,0	//CKpulse();
 						movff	T1,i2
 					ciclo_r199_t1:
 						decf	i2,1,0
@@ -2604,7 +2743,7 @@ void ParseCommands(void)
 						BSF 	STATUS,0,0		//Carry
 						RLCF	d,1,0
 						RLCF	d+1,1,0
-						BCF 	PORTB,CKnum,0
+						BCF 	LATB,CKnum,0
 						movff	T1,i2
 					ciclo_r199_t3:
 						decf	i2,1,0
@@ -3051,10 +3190,10 @@ void ParseCommands(void)
 						LOBYTE(d)=receive_buffer[++RXptr];	//PB1=RB0
 						HIBYTE(d)=receive_buffer[++RXptr];	//PB0=RC7
 						_asm
-						BSF 	PORTC,PB3,0 	//CKpulse();
+						BSF 	LATC,PB3,0 	//CKpulse();
 						nop
 						nop
-						BCF 	PORTC,PB3,0
+						BCF 	LATC,PB3,0
 						MOVLW	8
 						movwf	i,0
 						ciclo_r200:
@@ -3064,36 +3203,263 @@ void ParseCommands(void)
 						RLCF	i2,1,0
 						RLCF	d,1,0
 						BTFSS 	STATUS,0,0		//Carry
-						BCF 	PORTB,PB1,0		//D0();
+						BCF 	LATB,PB1,0		//D0();
 						BTFSC 	STATUS,0,0		//Carry
-						BSF 	PORTB,PB1,0 	//D1();
+						BSF 	LATB,PB1,0 	//D1();
 						RLCF	d+1,1,0
 						BTFSS 	STATUS,0,0		//Carry
-						BCF 	PORTC,PB0,0		//D0();
+						BCF 	LATC,PB0,0		//D0();
 						BTFSC 	STATUS,0,0		//Carry
-						BSF 	PORTC,PB0,0 	//D1();
+						BSF 	LATC,PB0,0 	//D1();
 						nop
-						BSF 	PORTC,PB3,0 	//CKpulse();
+						BSF 	LATC,PB3,0 	//CKpulse();
 						nop
 						nop
-						BCF 	PORTC,PB3,0
+						BCF 	LATC,PB3,0
 						decfsz	i,1,0
 						BRA 	ciclo_r200
-						BSF 	PORTC,PB3,0 	//CKpulse();
+						BSF 	LATC,PB3,0 	//CKpulse();
 						nop
 						nop
-						BCF 	PORTC,PB3,0
+						BCF 	LATC,PB3,0
 						nop
 						nop
-						BSF 	PORTC,PB3,0 	//CKpulse();
+						BSF 	LATC,PB3,0 	//CKpulse();
 						nop
 						nop
-						BCF 	PORTC,PB3,0
-						BCF 	PORTB,PB1,0		//D0();
-						BCF 	PORTC,PB0,0		//D0();
+						BCF 	LATC,PB3,0
+						BCF 	LATB,PB1,0		//D0();
+						BCF 	LATC,PB0,0		//D0();
 						_endasm
 					}
 					TXins(i2);
+					INTCONbits.GIE=1;
+				}
+				else{
+					TXins(RX_ERR);
+					receive_buffer[RXptr+1]=FLUSH;
+				}
+				break;
+			case JTAG_SET_MODE:
+			//Transmit 6 bit data MSB first
+			//Execution time: 10us
+				TXins(JTAG_SET_MODE);
+				if(RXptr+1<number_of_bytes_read){
+					LOBYTE(d)=receive_buffer[++RXptr];
+					INTCONbits.GIE=0;
+					_asm
+					RLCF	d,1,0
+					RLCF	d,1,0
+					BCF 	LATB,TDInum,0	//D0();
+					MOVLW	6
+					movwf	i,0
+					ciclo_201:
+					RLCF	d,1,0
+					BTFSS 	STATUS,0,0		//Carry
+					BCF 	LATB,TMSnum,0	//TMS0;
+					BTFSC 	STATUS,0,0		//Carry
+					BSF 	LATB,TMSnum,0	//TMS1;
+					BSF 	LATB,TCKnum,0	//TCK pulse;
+					BCF 	LATB,TCKnum,0
+                    decfsz	i,1,0
+					BRA 	ciclo_201
+					_endasm
+					INTCONbits.GIE=1;
+				}
+				else{
+					TXins(RX_ERR);
+					receive_buffer[RXptr+1]=FLUSH;
+				}
+				break;
+			case JTAG_SEND_CMD:
+			//Transmit 5 bit data LSB first
+			//Execution time: 10us
+				TXins(JTAG_SEND_CMD);
+				if(RXptr+1<number_of_bytes_read){
+					LOBYTE(d)=receive_buffer[++RXptr];
+					INTCONbits.GIE=0;
+					_asm
+					BCF 	LATB,TDInum,0	//D0();
+					BSF 	LATB,TMSnum,0	//TMS1;
+					BSF LATB,TCKnum,0//TCK pulse;
+                    BCF LATB,TCKnum,0                    
+					BSF LATB,TCKnum,0//TCK pulse;
+                    BCF LATB,TCKnum,0                    
+					BCF 	LATB,TMSnum,0	//TMS0;
+					BSF LATB,TCKnum,0//TCK pulse;
+                    BCF LATB,TCKnum,0                    
+					BSF LATB,TCKnum,0//TCK pulse;
+                    BCF LATB,TCKnum,0                    
+					MOVLW	4
+					movwf	i,0
+					ciclo_202:
+					RRCF	d,1,0
+					BTFSS 	STATUS,0,0		//Carry
+					BCF 	LATB,TDInum,0	//D0();
+					BTFSC 	STATUS,0,0		//Carry
+					BSF 	LATB,TDInum,0	//D1();
+					BSF LATB,TCKnum,0//TCK pulse;
+                    BCF LATB,TCKnum,0                    
+					decfsz	i,1,0
+					BRA 	ciclo_202
+					BSF 	LATB,TMSnum,0	//TMS1;
+					RRCF	d,1,0
+					BTFSS 	STATUS,0,0		//Carry
+					BCF 	LATB,TDInum,0	//D0();
+					BTFSC 	STATUS,0,0		//Carry
+					BSF 	LATB,TDInum,0	//D1();
+					BSF LATB,TCKnum,0//TCK pulse;
+                    BCF LATB,TCKnum,0                    
+					BCF 	LATB,TDInum,0	//D0();
+					BSF LATB,TCKnum,0//TCK pulse;
+                    BCF LATB,TCKnum,0                    
+					BCF 	LATB,TMSnum,0	//TMS0;
+					BSF LATB,TCKnum,0//TCK pulse;
+                    BCF LATB,TCKnum,0                    
+					_endasm
+					INTCONbits.GIE=1;
+				}
+				else{
+					TXins(RX_ERR);
+					receive_buffer[RXptr+1]=FLUSH;
+				}
+				break;
+			case JTAG_XFER_DATA:
+			//Transfer 32 bit data LSB first
+			//Execution time: 61us
+				TXins(JTAG_XFER_DATA);
+				if(RXptr+4<number_of_bytes_read){
+					HIBYTE(dH)=receive_buffer[++RXptr];	//HH
+					LOBYTE(dH)=receive_buffer[++RXptr];	//HL
+					HIBYTE(d)=receive_buffer[++RXptr];	//H
+					LOBYTE(d)=receive_buffer[++RXptr];	//L
+					INTCONbits.GIE=0;
+					_asm
+					BCF 	LATB,TDInum,0	//D0();
+					BSF 	LATB,TMSnum,0	//TMS1;
+					BSF LATB,TCKnum,0//TCK pulse;
+                    BCF LATB,TCKnum,0                    
+					BCF 	LATB,TMSnum,0	//TMS0;
+					BSF LATB,TCKnum,0//TCK pulse;
+                    BCF LATB,TCKnum,0                    
+					BSF LATB,TCKnum,0//TCK pulse;
+                    BCF LATB,TCKnum,0                    
+					MOVLW	31
+					movwf	i,0
+					ciclo_203:
+					RRCF	dH+1,1,0
+					RRCF	dH,1,0
+					RRCF	d+1,1,0
+					RRCF	d,1,0
+					BTFSS 	STATUS,0,0		//Carry
+					BCF 	LATB,TDInum,0	//D0();
+					BTFSC 	STATUS,0,0		//Carry
+					BSF 	LATB,TDInum,0	//D1();
+					BCF 	dH+1,7,0			//highest bit
+					BTFSC 	PORTB,TDOnum,0
+					BSF 	dH+1,7,0			//highest bit
+					BSF LATB,TCKnum,0//TCK pulse;
+                    BCF LATB,TCKnum,0                    
+					decfsz	i,1,0
+					BRA 	ciclo_203
+					BSF 	LATB,TMSnum,0	//TMS1;
+					RRCF	dH+1,1,0
+					RRCF	dH,1,0
+					RRCF	d+1,1,0
+					RRCF	d,1,0
+					BTFSS 	STATUS,0,0		//Carry
+					BCF 	LATB,TDInum,0	//D0();
+					BTFSC 	STATUS,0,0		//Carry
+					BSF 	LATB,TDInum,0	//D1();
+					BCF 	dH+1,7,0			//highest bit
+					BTFSC 	PORTB,TDOnum,0
+					BSF 	dH+1,7,0			//highest bit
+					BSF LATB,TCKnum,0//TCK pulse;
+                    BCF LATB,TCKnum,0                    
+					BCF 	LATB,TDInum,0	//D0();
+					BSF LATB,TCKnum,0//TCK pulse;
+                    BCF LATB,TCKnum,0                    
+					BCF 	LATB,TMSnum,0	//TMS0;
+					BSF LATB,TCKnum,0//TCK pulse;
+                    BCF LATB,TCKnum,0                    
+					_endasm
+					TXins(HIBYTE(dH));
+					TXins(LOBYTE(dH));
+					TXins(HIBYTE(d));
+					TXins(LOBYTE(d));
+					INTCONbits.GIE=1;
+				}
+				else{
+					TXins(RX_ERR);
+					receive_buffer[RXptr+1]=FLUSH;
+				}
+				break;
+			case JTAG_XFER_F_DATA:
+			//Transfer 32 bit data LSB first
+			//Execution time: 61us
+				TXins(JTAG_XFER_F_DATA);
+				if(RXptr+4<number_of_bytes_read){
+					HIBYTE(dH)=receive_buffer[++RXptr];	//HH
+					LOBYTE(dH)=receive_buffer[++RXptr];	//HL
+					HIBYTE(d)=receive_buffer[++RXptr];	//H
+					LOBYTE(d)=receive_buffer[++RXptr];	//L
+					INTCONbits.GIE=0;
+					_asm
+					BCF 	LATB,TDInum,0	//D0();
+					BSF 	LATB,TMSnum,0	//TMS1;
+					BSF LATB,TCKnum,0//TCK pulse;
+                    BCF LATB,TCKnum,0                    
+					BCF 	LATB,TMSnum,0	//TMS0;
+					BSF LATB,TCKnum,0//TCK pulse;
+                    BCF LATB,TCKnum,0                    
+					BSF LATB,TCKnum,0//TCK pulse;
+                    BCF LATB,TCKnum,0                    
+					BSF LATB,TCKnum,0//TCK pulse;
+                    BCF LATB,TCKnum,0
+                    //PrAcc
+					MOVLW	31
+					movwf	i,0
+					ciclo_203:
+					RRCF	dH+1,1,0
+					RRCF	dH,1,0
+					RRCF	d+1,1,0
+					RRCF	d,1,0
+					BTFSS 	STATUS,0,0		//Carry
+					BCF 	LATB,TDInum,0	//D0();
+					BTFSC 	STATUS,0,0		//Carry
+					BSF 	LATB,TDInum,0	//D1();
+					BCF 	dH+1,7,0			//highest bit
+					BTFSC 	PORTB,TDOnum,0
+					BSF 	dH+1,7,0			//highest bit
+					BSF LATB,TCKnum,0//TCK pulse;
+                    BCF LATB,TCKnum,0                    
+					decfsz	i,1,0
+					BRA 	ciclo_203
+					BSF 	LATB,TMSnum,0	//TMS1;
+					RRCF	dH+1,1,0
+					RRCF	dH,1,0
+					RRCF	d+1,1,0
+					RRCF	d,1,0
+					BTFSS 	STATUS,0,0		//Carry
+					BCF 	LATB,TDInum,0	//D0();
+					BTFSC 	STATUS,0,0		//Carry
+					BSF 	LATB,TDInum,0	//D1();
+					BCF 	dH+1,7,0			//highest bit
+					BTFSC 	PORTB,TDOnum,0
+					BSF 	dH+1,7,0			//highest bit
+					BSF LATB,TCKnum,0//TCK pulse;
+                    BCF LATB,TCKnum,0                    
+					BCF 	LATB,TDInum,0	//D0();
+					BSF LATB,TCKnum,0//TCK pulse;
+                    BCF LATB,TCKnum,0                    
+					BCF 	LATB,TMSnum,0	//TMS0;
+					BSF LATB,TCKnum,0//TCK pulse;
+                    BCF LATB,TCKnum,0                    
+					_endasm
+					TXins(HIBYTE(dH));
+					TXins(LOBYTE(dH));
+					TXins(HIBYTE(d));
+					TXins(LOBYTE(d));
 					INTCONbits.GIE=1;
 				}
 				else{
@@ -3458,9 +3824,9 @@ spi_cycle:
 	btfsc 	RES0,2,0			//Check data phase (bit 2 of T2)
 	bra 	spi_NOphase0
 	BTFSS	I2C_BUFFER,7,0		//MSB first
-	BCF 	PORTC,7,0	//D0();
+	BCF 	LATC,7,0	//D0();
 	BTFSC 	I2C_BUFFER,7,0
-	BSF 	PORTC,7,0	//D1();
+	BSF 	LATC,7,0	//D1();
 spi_NOphase0:
 	movf	T1,0,0		//half bit delay
 	movwf	tt,0
@@ -3469,16 +3835,16 @@ spi_NOphase0:
 	bra 	spi_halfbit0
 
 	BTFSS 	RES0,3,0		//Clock edge, depending on polarity
-	BSF 	PORTB,1,0
+	BSF 	LATB,1,0
 	BTFSC 	RES0,3,0
-	BCF 	PORTB,1,0
+	BCF 	LATB,1,0
 
 	btfss 	RES0,2,0			//Check data phase (bit 2 of T2)
 	bra 	spi_NOphase1
 	BTFSS	I2C_BUFFER,7,0		//MSB first
-	BCF 	PORTC,7,0	//D0();
+	BCF 	LATC,7,0	//D0();
 	BTFSC 	I2C_BUFFER,7,0
-	BSF 	PORTC,7,0	//D1();
+	BSF 	LATC,7,0	//D1();
 	bra 	spi_NOphase0in
 spi_NOphase1:
 	RRCF 	PORTB,0,0	//shift in RB0
@@ -3492,9 +3858,9 @@ spi_NOphase0in:
 	bra 	spi_halfbit1
 
 	BTFSS 	RES0,3,0		//Clock edge, depending on polarity
-	BCF 	PORTB,1,0
+	BCF 	LATB,1,0
 	BTFSC 	RES0,3,0
-	BSF 	PORTB,1,0
+	BSF 	LATB,1,0
 
 	btfss 	RES0,2,0			//Check data phase (bit 2 of T2)
 	bra 	spi_NOphase1in

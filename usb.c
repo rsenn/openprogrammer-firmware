@@ -77,8 +77,8 @@ rom byte deviceDescriptor[] =
     0x00, 0x02, // bcdUSB (low byte), bcdUSB (high byte)
     0x00, 0x00, // bDeviceClass, bDeviceSubClass
     0x00, E0SZ, // bDeviceProtocl, bMaxPacketSize
-    0xD8, 0x04, // idVendor (low byte), idVendor (high byte)
-    0x00, 0x01, // idProduct (low byte), idProduct (high byte)
+    0x09, 0x12, // idVendor (low byte), idVendor (high byte)
+    0x32, 0x54, // idProduct (low byte), idProduct (high byte)
     0x01, 0x00, // bcdDevice (low byte), bcdDevice (high byte)
     0x01, 0x02, // iManufacturer, iProduct
     0x00, 0x01  // iSerialNumber (none), bNumConfigurations
