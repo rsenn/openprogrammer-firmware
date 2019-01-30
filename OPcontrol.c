@@ -1,7 +1,7 @@
 /*********************************************************************
  * OPcontrol - control firmare for the Open Programmer
  * for more info see: openprog.altervista.org
- * Copyright (C) 2009-2016 Alberto Maccioni
+ * Copyright (C) 2009-2019 Alberto Maccioni
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,6 +33,7 @@ History
 0.9.0  - 25/1/14 added SET_PORT_DIR,AT_HV_RTX,SIX_LONG5; improved DCDC control
 0.10.0 - 11/6/16 added LOAD_PC, LOAD_DATA_INC, READ_DATA_INC, JTAG_SET_MODE, JTAG_SEND_CMD, JTAG_XFER_DATA, JTAG_XFER_F_DATA, 
 				 new USB VID&PID (0x1209,0x5432), changed some CK timing, reduced CLOCK_GEN startup time
+0.11.0 - 14/1/19 added ICSP8_SHORT,ICSP8_READ,ICSP8_LOAD 
 *********************************************************************
 Map of peripherals
 
@@ -52,7 +53,7 @@ CCP2	(if DCDC on): compare mode, trigger ADC every 250us
 ADC: 	acquires Vreg*12k/34k on AN0, FOSC/64, triggered by CCP2, generates interrupt
 
 MSSP 	(I2C mode): master
-		this was removed for problems with the hardware peripheral:
+		the following was removed for problems with the hardware peripheral:
 		[(SPI mode): master, clock from timer2 ]
 
 If compiled for 18F2450:
@@ -74,9 +75,9 @@ software SPI
 #include "instructions.h"
 
 //********Misc.********
-#define VERSION "0.10.0"
+#define VERSION "0.11.0"
 #define VER2	0
-#define VER1	10
+#define VER1	11
 #define VER0	0
 #define ID2	0
 #define ID1	0
@@ -197,7 +198,7 @@ software SPI
 #pragma romdata eedata=0xF00000
 rom char eestr[]="Open Programmer v. ";
 rom char eestr2[]=VERSION;
-rom char eestr3[]=" - Copyright (C) 2009-2016 Alberto Maccioni - This is free software";
+rom char eestr3[]=" - Copyright (C) 2009-2019 Alberto Maccioni - This is free software";
 #endif
 
 #pragma udata
@@ -3419,7 +3420,7 @@ void ParseCommands(void)
                     //PrAcc
 					MOVLW	31
 					movwf	i,0
-					ciclo_203:
+					ciclo_204:
 					RRCF	dH+1,1,0
 					RRCF	dH,1,0
 					RRCF	d+1,1,0
@@ -3434,7 +3435,7 @@ void ParseCommands(void)
 					BSF LATB,TCKnum,0//TCK pulse;
                     BCF LATB,TCKnum,0                    
 					decfsz	i,1,0
-					BRA 	ciclo_203
+					BRA 	ciclo_204
 					BSF 	LATB,TMSnum,0	//TMS1;
 					RRCF	dH+1,1,0
 					RRCF	dH,1,0
@@ -3460,6 +3461,144 @@ void ParseCommands(void)
 					TXins(LOBYTE(dH));
 					TXins(HIBYTE(d));
 					TXins(LOBYTE(d));
+					INTCONbits.GIE=1;
+				}
+				else{
+					TXins(RX_ERR);
+					receive_buffer[RXptr+1]=FLUSH;
+				}
+				break;
+
+			//ICSP8 8-bit command without payload
+			//parameter1: command code (MSB first)
+			//execution time: 11us
+			case ICSP8_SHORT:
+				TXins(ICSP8_SHORT);
+				if(RXptr+1<number_of_bytes_read){
+					LOBYTE(d)=receive_buffer[++RXptr];
+					INTCONbits.GIE=0;
+					_asm
+					MOVLW	8
+					movwf	i,0
+					ciclo_300:
+					RLCF	d,1,0
+					BCF 	LATB,Dnum,0	//D0();
+					BTFSC 	STATUS,0,0		//Carry
+					BSF 	LATB,Dnum,0	//D1();
+					BSF 	LATB,CKnum,0	//CKpulseN();
+					nop
+					BCF 	LATB,CKnum,0
+					decfsz	i,1,0
+					BRA ciclo_300
+					_endasm
+					D0();
+					INTCONbits.GIE=1;
+				}
+				else{
+					TXins(RX_ERR);
+					receive_buffer[RXptr+1]=FLUSH;
+				}
+				break;
+
+			//ICSP8 8-bit command with 16-bit read
+			//parameter1: command code (MSB first)
+			//returns 2-bytes of data (MSB first)
+			//execution time: 38us
+			case ICSP8_READ:
+				TXins(ICSP8_READ);
+				if(RXptr+1<number_of_bytes_read){
+					LOBYTE(d)=receive_buffer[++RXptr];
+					INTCONbits.GIE=0;
+					_asm
+					MOVLW	8
+					movwf	i,0
+					ciclo_301:
+					RLCF	d,1,0
+					BCF 	LATB,Dnum,0	//D0();
+					BTFSC 	STATUS,0,0		//Carry
+					BSF 	LATB,Dnum,0	//D1();
+					BSF 	LATB,CKnum,0	//CKpulseN();
+					nop
+					BCF 	LATB,CKnum,0
+					decfsz	i,1,0
+					BRA ciclo_301
+					_endasm
+					D0();
+					Ddir_bit=1;		//Input
+					for(i=0;i<2;i++) Nop();	//>1us
+					for(i=0;i<9;i++) CKpulseN();	//ignore 9 bits (24-1-14)
+                    d=0;
+					_asm
+					MOVLW	14
+					movwf	i,0
+					ciclo_302:
+					BSF 	LATB,CKnum,0
+					BCF 	STATUS,0,0		//Carry
+					BCF 	LATB,CKnum,0
+					BTFSC	PORTB,Dnum,0
+					BSF 	STATUS,0,0		//Carry
+					RLCF	d,1,0			//<<1 L
+					RLCF	d+1,1,0			//<<1 H
+					decfsz	i,1,0
+					BRA ciclo_302
+					_endasm
+					CK1();	//Stop bit
+					Ddir_bit=0;		//Output
+					CK0();	//Stop bit
+					INTCONbits.GIE=1;
+					TXins(HIBYTE(d));	//&d+1
+					TXins(LOBYTE(d));	//&d
+				}
+				else{
+					TXins(RX_ERR);
+					receive_buffer[RXptr+1]=FLUSH;
+				}
+				break;
+
+			//ICSP8 8-bit command with 16-bit payload
+			//parameter1: command code (MSB first)
+			//parameter2: 2-bytes of data (MSB first)
+			//execution time: 35us
+			case ICSP8_LOAD:
+				TXins(ICSP8_LOAD);
+				if(RXptr+3<number_of_bytes_read){
+					LOBYTE(d)=receive_buffer[++RXptr];
+					INTCONbits.GIE=0;
+					_asm
+					MOVLW	8
+					movwf	i,0
+					ciclo_303:
+					RLCF	d,1,0
+					BCF 	LATB,Dnum,0	//D0();
+					BTFSC 	STATUS,0,0		//Carry
+					BSF 	LATB,Dnum,0	//D1();
+					BSF 	LATB,CKnum,0	//CKpulseN();
+					nop
+					BCF 	LATB,CKnum,0
+					decfsz	i,1,0
+					BRA ciclo_303
+					_endasm
+					D0();
+					HIBYTE(d)=receive_buffer[++RXptr];
+					LOBYTE(d)=receive_buffer[++RXptr];
+					for(i=0;i<7;i++) CKpulseN();	//ignore 7 bits (24-1-16)
+					_asm
+					MOVLW	16
+					movwf	i,0
+					ciclo_304:
+					RLCF	d,1,0			//<<1 L
+					RLCF	d+1,1,0			//<<1 H
+					BCF 	LATB,Dnum,0		//D0();
+					BTFSC 	STATUS,0,0		//Carry
+					BSF 	LATB,Dnum,0		//D1();
+					BSF 	LATB,CKnum,0	//CKpulseN();
+					nop
+					BCF 	LATB,CKnum,0
+					decfsz	i,1,0
+					BRA ciclo_304
+					_endasm
+					D0();
+					CKpulseN();	//Stop bit
 					INTCONbits.GIE=1;
 				}
 				else{

@@ -1,7 +1,11 @@
 
-*.gitignore
 *.err
 *.svn
 *.o
+*.o.d
 *.cof
 *.map
+*.bak
+*.disasm
+*.gitignore
+_old mplab
