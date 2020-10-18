@@ -1,7 +1,7 @@
 /*********************************************************************
  * OPcontrol - control firmare for the Open Programmer
  * for more info see: openprog.altervista.org
- * Copyright (C) 2009-2019 Alberto Maccioni
+ * Copyright (C) 2009-2020 Alberto Maccioni
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,7 +33,8 @@ History
 0.9.0  - 25/1/14 added SET_PORT_DIR,AT_HV_RTX,SIX_LONG5; improved DCDC control
 0.10.0 - 11/6/16 added LOAD_PC, LOAD_DATA_INC, READ_DATA_INC, JTAG_SET_MODE, JTAG_SEND_CMD, JTAG_XFER_DATA, JTAG_XFER_F_DATA, 
 				 new USB VID&PID (0x1209,0x5432), changed some CK timing, reduced CLOCK_GEN startup time
-0.11.0 - 14/1/19 added ICSP8_SHORT,ICSP8_READ,ICSP8_LOAD 
+0.11.0 - 14/1/19 added ICSP8_SHORT,ICSP8_READ,ICSP8_LOAD
+0.11.2 - 23/9/20 extended ICSP8_READ payload to 16 bits (for PIC18) 
 *********************************************************************
 Map of peripherals
 
@@ -75,10 +76,10 @@ software SPI
 #include "instructions.h"
 
 //********Misc.********
-#define VERSION "0.11.0"
+#define VERSION "0.11.2"
 #define VER2	0
 #define VER1	11
-#define VER0	0
+#define VER0	2
 #define ID2	0
 #define ID1	0
 #define TX_TEMP_MAX 10
@@ -198,7 +199,7 @@ software SPI
 #pragma romdata eedata=0xF00000
 rom char eestr[]="Open Programmer v. ";
 rom char eestr2[]=VERSION;
-rom char eestr3[]=" - Copyright (C) 2009-2019 Alberto Maccioni - This is free software";
+rom char eestr3[]=" - Copyright (C) 2009-2020 Alberto Maccioni - This is free software";
 #endif
 
 #pragma udata
@@ -334,7 +335,7 @@ void ProcessIO(void)
  		number_of_bytes_read = HIDRxReport(receive_buffer, HID_OUTPUT_REPORT_BYTES);
 		if (number_of_bytes_read) RXptr=0;
 	}
-    ParseCommands();
+	ParseCommands();
 }
 
 /******************************************************************************
@@ -433,7 +434,7 @@ void ParseCommands(void)
 				PIE1bits.ADIE=0;	//ADC interrupt
 				CCP1CON=CCP2CON=0;	//pwm off
 #endif
-				HLVDCON=0b00001110;	//diable power supply comparator
+				HLVDCON=0b00001110;	//disable power supply comparator
 				break;
 			case SET_PARAMETER:
 				TXins(SET_PARAMETER);
@@ -3477,6 +3478,7 @@ void ParseCommands(void)
 				if(RXptr+1<number_of_bytes_read){
 					LOBYTE(d)=receive_buffer[++RXptr];
 					INTCONbits.GIE=0;
+					Ddir_bit=0;		//Output
 					_asm
 					MOVLW	8
 					movwf	i,0
@@ -3509,6 +3511,7 @@ void ParseCommands(void)
 				if(RXptr+1<number_of_bytes_read){
 					LOBYTE(d)=receive_buffer[++RXptr];
 					INTCONbits.GIE=0;
+					Ddir_bit=0;		//Output
 					_asm
 					MOVLW	8
 					movwf	i,0
@@ -3526,10 +3529,10 @@ void ParseCommands(void)
 					D0();
 					Ddir_bit=1;		//Input
 					for(i=0;i<2;i++) Nop();	//>1us
-					for(i=0;i<9;i++) CKpulseN();	//ignore 9 bits (24-1-14)
+					for(i=0;i<7;i++) CKpulseN();	//ignore 7 bits (24-1-16)
                     d=0;
 					_asm
-					MOVLW	14
+					MOVLW	16
 					movwf	i,0
 					ciclo_302:
 					BSF 	LATB,CKnum,0
@@ -3564,6 +3567,7 @@ void ParseCommands(void)
 				if(RXptr+3<number_of_bytes_read){
 					LOBYTE(d)=receive_buffer[++RXptr];
 					INTCONbits.GIE=0;
+					Ddir_bit=0;		//Output
 					_asm
 					MOVLW	8
 					movwf	i,0

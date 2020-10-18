@@ -137,19 +137,19 @@ void main(void)
 
 	// Call user initialization function
 	UserInit();
-		
+	
 	while(1)
-    {
-        // Ensure USB module is available
+	{
+		// Ensure USB module is available
 		EnableUSBModule();
-		
+
 		// As long as we aren't in test mode (UTEYE), process
 		// USB transactions.
 		if(UCFGbits.UTEYE != 1)
-			ProcessUSBTransactions();
+		ProcessUSBTransactions();
 
-        // Application specific tasks
-        ProcessIO();
+		// Application specific tasks
+		ProcessIO();
         
     }
 }
