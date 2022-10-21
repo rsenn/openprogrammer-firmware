@@ -17,7 +17,11 @@
             </sourceRootList>
             <confList>
                 <confElem>
-                    <name>default</name>
+                    <name>18F2550</name>
+                    <type>2</type>
+                </confElem>
+                <confElem>
+                    <name>18F25K50</name>
                     <type>2</type>
                 </confElem>
             </confList>

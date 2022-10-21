@@ -35,6 +35,7 @@ History
 				 new USB VID&PID (0x1209,0x5432), changed some CK timing, reduced CLOCK_GEN startup time
 0.11.0 - 14/1/19 added ICSP8_SHORT,ICSP8_READ,ICSP8_LOAD
 0.11.2 - 23/9/20 extended ICSP8_READ payload to 16 bits (for PIC18) 
+0.12.0 - 17/10/22 adapted to 18F25K50, added REPEAT,TBLRD&TBLWT
 *********************************************************************
 Map of peripherals
 
@@ -49,7 +50,7 @@ CCP1	(if DCDC on): PWM mode, clock from timer2, 90 kHz, to DCDC converter
 		(after CLOCK_GEN command): compare mode, reset timer3 on match
 
 CCP2	(if DCDC on): compare mode, trigger ADC every 250us
-		(after CLOCK_GEN command): compare mode, toggle on match, clock to external devices
+		(after CLOCK_GEN command): compare mode, toggle on match, clock to external devices on RB3
 
 ADC: 	acquires Vreg*12k/34k on AN0, FOSC/64, triggered by CCP2, generates interrupt
 
@@ -57,10 +58,6 @@ MSSP 	(I2C mode): master
 		the following was removed for problems with the hardware peripheral:
 		[(SPI mode): master, clock from timer2 ]
 
-If compiled for 18F2450:
-Timer1  (if DCDC on): interrupt every 250us, ADC started by interrupt routine;
-no CCP2
-no MSSP
 software I2C
 software SPI
 
@@ -76,10 +73,10 @@ software SPI
 #include "instructions.h"
 
 //********Misc.********
-#define VERSION "0.11.2"
+#define VERSION "0.12.0"
 #define VER2	0
-#define VER1	11
-#define VER0	2
+#define VER1	12
+#define VER0	0
 #define ID2	0
 #define ID1	0
 #define TX_TEMP_MAX 10
@@ -89,15 +86,14 @@ software SPI
 #define INS_ERR	 	0xfe	//instruction error
 #define ACK_ERR 	0xfd	//I2C acknowledge error
 #define SW_SPI	//some chips (such as 18F2550) have bugs in the hardware implementation
+#define SW_I2C
 #if defined(__18F2455)||defined(__18F2550)
 	#define ID0	1
-#elif defined(__18F2450)
-	#define ID0	2
-	#define SW_I2C
-	#define NO_CCP2		//can't use CCP2 as source for ADC trigger
 #elif defined(__18F2458)||defined(__18F2553)
 	#define ID0	3
 	#define ADC12		//12 bit ADC requires a different algorithm for DCDC control
+#elif defined(__18F25K50)
+	#define ID0	4
 #else
 	#define ID0	255
 #endif
@@ -199,19 +195,23 @@ software SPI
 #pragma romdata eedata=0xF00000
 rom char eestr[]="Open Programmer v. ";
 rom char eestr2[]=VERSION;
-rom char eestr3[]=" - Copyright (C) 2009-2020 Alberto Maccioni - This is free software";
+rom char eestr3[]=" - Copyright (C) 2009-2022 Alberto Maccioni - This is free software";
 #endif
 
 #pragma udata
 
-char transmit_buffer[HID_OUTPUT_REPORT_BYTES];
-char receive_buffer[HID_INPUT_REPORT_BYTES];
-char transmit_temp[TX_TEMP_MAX];
+unsigned char transmit_buffer[HID_OUTPUT_REPORT_BYTES];
+unsigned char receive_buffer[HID_INPUT_REPORT_BYTES];
+unsigned char transmit_temp[TX_TEMP_MAX];
 byte number_of_bytes_read=0;
 byte IN_pending;
 byte led_cnt;
 byte T2,M,N;
 int T3,timeout;
+byte progmode=0;
+int genCount=0;
+int loopCounter=0;
+int	loopPointer=0;
 
 #pragma idata access my_access
 /* all accesses to these will be unbanked */
@@ -260,14 +260,25 @@ unsigned char SW_IO_SPI(unsigned char c);	//transfer one byte
 #pragma code
 void UserInit(void)
 {
+#if defined(__18F25K50)
+	OSCCON=0x70;	//16MHz INTRC
+	ACTCON=0x90;	//self tuning with USB
+	// Set all I/O pins to digital
+	ANSELA=1;	//analog input on RA0
+	ANSELB=0;
+	ANSELC=0;
+	ADCON1=0x0;				//internal ref, trigger from CCP2
+#else
+	ADCON1=0x0E;			//AN0, internal ref
+#endif
+	ADCON0=0x01;			//AN0, ADC ON
+	ADCON2=0b10000110;		//LSB, 0Tad (no channel switch), FOSC/64
+	if(PORTEbits.RE3==0) progmode=1;
 	IN_pending=0;
 	led_cnt=0;
 	LATB=0;
 	LATA=0;
 	TRISA=0b11111001;
-	ADCON0=0x01;			//AN0, ADC ON
-	ADCON1=0x0E;			//AN0, internal ref
-	ADCON2=0b10000110;		//LSB, 0Tad, FOSC/64
 #if !defined(NO_CCP2)
 	CCP1CON=CCP2CON=0;
 #else
@@ -312,13 +323,10 @@ void BlinkStatus(){
 void ProcessIO(void)
 {
 	// Called repeatedly in main().
-
     BlinkStatus();
-
     // User Application USB tasks
-
+	// set deviceState=5 in simulation
     if((deviceState < CONFIGURED)||(UCONbits.SUSPND==1)) return;
-
     if(IN_pending&&!(ep1Bi.Stat&UOWN)){
 	    HIDTxReport(transmit_buffer, HID_INPUT_REPORT_BYTES);
 	    IN_pending=0;
@@ -416,7 +424,12 @@ void ParseCommands(void)
 				PIR1bits.ADIF=0;
 				PIE1bits.ADIE=1;	//enable ADC interrupt
 				TMR3L=TMR3H=0;
+	#if defined(__18F25K50)
+				CCPTMRSbits.C2TSEL=1;		//CCP2 in compare mode uses TIMER3
+				T3CON=0b00000011;	//timer3, FOSC/4, 16 bit, no prescaler
+	#else
 				T3CON=0b10001001;	//timer3, 16 bit, linked to CCP2, no prescaler
+	#endif
 				CCP2CON=0x0B;		//enable compare mode with ADC trigger
 #endif
 				CCPR1L=0;			//SetDCPWM1(0);
@@ -509,6 +522,7 @@ void ParseCommands(void)
 			case WAIT_US:		//manual delay us (8 bit)
 				TXins(WAIT_US);
 				if(RXptr+1<number_of_bytes_read){
+					INTCONbits.GIE=0;
 					for(i=receive_buffer[++RXptr];i;i--){
 						Nop();
 						Nop();
@@ -518,6 +532,7 @@ void ParseCommands(void)
 						Nop();
 						Nop();
 					}
+					INTCONbits.GIE=1;
 				}
 				else{
 					TXins(RX_ERR);
@@ -527,8 +542,11 @@ void ParseCommands(void)
 			case READ_ADC:		//read ADC
 				PIR2bits.HLVDIF=0;
 				TXins(READ_ADC);
+				INTCONbits.GIE=0;
 				ADCON0bits.GO=1;
 				while(ADCON0bits.GO);
+				PIR1bits.ADIF = 0;
+				INTCONbits.GIE=1;
 				if(PIR2bits.HLVDIF){
 					TXins(0);
 					TXins(0);
@@ -543,7 +561,8 @@ void ParseCommands(void)
 				TXins(SET_VPP);
 				if(RXptr+1<number_of_bytes_read){
 #if !defined(NO_CCP2)
-					if(!PIE1bits.ADIE||!HLVDCONbits.IVRST) TXins(INS_ERR); //Check interrupt and HLVD
+//					if(!PIE1bits.ADIE||!HLVDCONbits.IVRST) TXins(INS_ERR); //Check interrupt and HLVD
+					if(!PIE1bits.ADIE||!HLVDCONbits.IRVST) TXins(INS_ERR); //Check interrupt and HLVD
 #else
 					if(!PIE1bits.TMR1IE||!HLVDCONbits.IVRST) TXins(INS_ERR); //Check interrupt and HLVD
 #endif
@@ -3654,6 +3673,69 @@ void ParseCommands(void)
 					receive_buffer[RXptr+1]=FLUSH;
 				}
 				break;
+			case TBLRD:			//TABLE READ (3B addr -> 2B data)
+				TXins(TBLRD);
+				if(RXptr+3<number_of_bytes_read&&progmode){
+					TBLPTRU=receive_buffer[++RXptr];
+					TBLPTRH=receive_buffer[++RXptr];
+					TBLPTRL=receive_buffer[++RXptr];
+					_asm 
+							TBLRDPOSTINC
+					_endasm
+					TXins(TABLAT);
+					_asm 
+							TBLRDPOSTDEC
+					_endasm;
+					TXins(TABLAT);
+				}
+				else{
+					TXins(RX_ERR);
+					receive_buffer[RXptr+1]=FLUSH;
+				}
+				break;
+			case TBLWT:			//TABLE WRITE (3B addr + 2B data)
+				TXins(TBLWT);
+				if(RXptr+5<number_of_bytes_read&&progmode){
+					TBLPTRU=receive_buffer[++RXptr];
+					TBLPTRH=receive_buffer[++RXptr];
+					TBLPTRL=receive_buffer[++RXptr];
+					TABLAT=receive_buffer[++RXptr];
+					_asm 
+							TBLWTPOSTINC
+					_endasm
+					TABLAT=receive_buffer[++RXptr];
+					_asm 
+							TBLWTPOSTDEC
+					_endasm
+				}
+				else{
+					TXins(RX_ERR);
+					receive_buffer[RXptr+1]=FLUSH;
+				}
+				break;
+			case REPEAT:		//prova
+				TXins(REPEAT);
+				if(RXptr+1<number_of_bytes_read){
+					loopCounter=receive_buffer[++RXptr];
+					TXins(loopCounter);
+					loopPointer=RXptr+1;	//loop address
+				}
+				else{
+					TXins(RX_ERR);
+					receive_buffer[RXptr+1]=FLUSH;
+				}
+				break;
+			case REPEAT_END:		//prova
+				TXins(REPEAT_END);
+				TXins(--loopCounter);
+				if(loopCounter>0){
+					for(;TXptr<HID_INPUT_REPORT_BYTES;TXptr++) transmit_buffer[TXptr]=0;
+					TXptr=0;
+					if(!(ep1Bi.Stat&UOWN)) HIDTxReport(transmit_buffer, HID_INPUT_REPORT_BYTES);
+					else IN_pending=1;
+					RXptr=loopPointer-1;	//jump to start of loop
+				}
+				break;
 #if !defined(SW_SPI)					//hardware peripheral
 			case SPI_TEST:				//SPI readback (nbytes)
 				TXins(SPI_TEST);
@@ -3740,6 +3822,7 @@ void timer_isr (void)
 	err>>=2;
 #endif
 	err-=vreg;
+	//optimized assembly code for the following operations:
 	//pwm+=errz*225
 	//pwm-=err*228
 #define F 1
@@ -3862,9 +3945,8 @@ signed char SWPutcI2C( unsigned char data_out )
 
   do
     {
-     I2C_BUFFER &= 0xFF;          // generate movlb instruction
       _asm
-      rlcf I2C_BUFFER,1,1         // rotate into carry and test
+      rlcf I2C_BUFFER,1,0         // rotate into carry and test
       _endasm
 
       if ( STATUS & 0x01 )        // if carry set, transmit out logic 1

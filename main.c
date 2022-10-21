@@ -26,62 +26,81 @@
 #include "OPcontrol.h"		// User code
 
 // Define configuration registers (fuses)
-// CONFIG1L
-#pragma config PLLDIV = 3       // PLL Prescaler Selection bits (Divide by 3 (12 MHz oscillator input))
-#pragma config CPUDIV = OSC1_PLL2// System Clock Postscaler Selection bits ([Primary Oscillator Src: /1][96 MHz PLL Src: /2])
-#pragma config USBDIV = 2       // USB Clock Selection bit (used in Full-Speed USB mode only; UCFG:FSEN = 1) (USB clock source comes from the 96 MHz PLL divided by 2)
-// CONFIG1H
-#pragma config FOSC = HSPLL_HS  // Oscillator Selection bits (HS oscillator, PLL enabled (HSPLL))
-#pragma config FCMEN = OFF      // Fail-Safe Clock Monitor Enable bit (Fail-Safe Clock Monitor disabled)
-#pragma config IESO = OFF       // Internal/External Oscillator Switchover bit (Oscillator Switchover mode disabled)
-// CONFIG2L
-#pragma config PWRT = OFF       // Power-up Timer Enable bit (PWRT disabled)
-#pragma config BOR = ON_ACTIVE  // Brown-out Reset Enable bits (Brown-out Reset enabled in hardware only and disabled in Sleep mode (SBOREN is disabled))
-//#pragma config BORV = 3         // Brown-out Reset Voltage bits (Minimum setting)
-#pragma config VREGEN = ON      // USB Voltage Regulator Enable bit (USB voltage regulator enabled)
-// CONFIG2H
-#pragma config WDT = OFF        // Watchdog Timer Enable bit (WDT disabled (control is placed on the SWDTEN bit))
-#pragma config WDTPS = 32768    // Watchdog Timer Postscale Select bits (1:32768)
-// CONFIG3H
-//#pragma config CCP2MX = ON      // CCP2 MUX bit (CCP2 input/output is multiplexed with RC1)
-#pragma config PBADEN = OFF     // PORTB A/D Enable bit (PORTB<4:0> pins are configured as digital I/O on Reset)
-#pragma config LPT1OSC = OFF    // Low-Power Timer 1 Oscillator Enable bit (Timer1 configured for higher power operation)
-#pragma config MCLRE = OFF      // MCLR Pin Enable bit (RE3 input pin enabled; MCLR pin disabled)
-// CONFIG4L
-#pragma config STVREN = ON      // Stack Full/Underflow Reset Enable bit (Stack full/underflow will cause Reset)
-#pragma config LVP = OFF        // Single-Supply ICSP Enable bit (Single-Supply ICSP disabled)
-#pragma config XINST = OFF      // Extended Instruction Set Enable bit (Instruction set extension and Indexed Addressing mode disabled (Legacy mode))
-#pragma config   DEBUG=OFF
-// CONFIG5L (default)
-#pragma config CP0 = OFF        // Code Protection bit (Block 0 (000800-001FFFh) is not code-protected)
-#pragma config CP1 = OFF        // Code Protection bit (Block 1 (002000-003FFFh) is not code-protected)
-#pragma config CP2 = OFF        // Code Protection bit (Block 2 (004000-005FFFh) is not code-protected)
-#pragma config CP3 = OFF        // Code Protection bit (Block 3 (006000-007FFFh) is not code-protected)
-// CONFIG5H (default)
-#pragma config CPB = OFF        // Boot Block Code Protection bit (Boot block (000000-0007FFh) is not code-protected)
-#pragma config CPD = OFF        // Data EEPROM Code Protection bit (Data EEPROM is not code-protected)
-// CONFIG6L (default)
-#pragma config WRT0 = OFF       // Write Protection bit (Block 0 (000800-001FFFh) is not write-protected)
-#pragma config WRT1 = OFF       // Write Protection bit (Block 1 (002000-003FFFh) is not write-protected)
-#pragma config WRT2 = OFF       // Write Protection bit (Block 2 (004000-005FFFh) is not write-protected)
-#pragma config WRT3 = OFF       // Write Protection bit (Block 3 (006000-007FFFh) is not write-protected)
-// CONFIG6H (default)
-#pragma config WRTC = OFF       // Configuration Register Write Protection bit (Configuration registers (300000-3000FFh) are not write-protected)
-#pragma config WRTB = OFF       // Boot Block Write Protection bit (Boot block (000000-0007FFh) is not write-protected)
-#pragma config WRTD = OFF       // Data EEPROM Write Protection bit (Data EEPROM is not write-protected)
-// CONFIG7L (default)
-#pragma config EBTR0 = OFF      // Table Read Protection bit (Block 0 (000800-001FFFh) is not protected from table reads executed in other blocks)
-#pragma config EBTR1 = OFF      // Table Read Protection bit (Block 1 (002000-003FFFh) is not protected from table reads executed in other blocks)
-#pragma config EBTR2 = OFF      // Table Read Protection bit (Block 2 (004000-005FFFh) is not protected from table reads executed in other blocks)
-#pragma config EBTR3 = OFF      // Table Read Protection bit (Block 3 (006000-007FFFh) is not protected from table reads executed in other blocks)
-// CONFIG7H (default)
-#pragma config EBTRB = OFF      // Boot Block Table Read Protection bit (Boot block (000000-0007FFh) is not protected from table reads executed in other blocks)
-
-#if !defined(__18F2450)
-#pragma config CCP2MX=OFF, BORV=3
-#else
-#pragma config BORV=21
+#if defined(__18F2455)||defined(__18F2550)||defined(__18F2458)||defined(__18F2553)||defined(__18F2450)
+	// CONFIG1L
+	#pragma config PLLDIV = 3       // PLL Prescaler Selection bits (Divide by 3 (12 MHz oscillator input))
+	#pragma config CPUDIV = OSC1_PLL2// System Clock Postscaler Selection bits ([Primary Oscillator Src: /1][96 MHz PLL Src: /2])
+	#pragma config USBDIV = 2       // USB Clock Selection bit (used in Full-Speed USB mode only; UCFG:FSEN = 1) (USB clock source comes from the 96 MHz PLL divided by 2)
+	// CONFIG1H
+	#pragma config FOSC = HSPLL_HS  // Oscillator Selection bits (HS oscillator, PLL enabled (HSPLL))
+	#pragma config FCMEN = OFF      // Fail-Safe Clock Monitor Enable bit (Fail-Safe Clock Monitor disabled)
+	#pragma config IESO = OFF       // Internal/External Oscillator Switchover bit (Oscillator Switchover mode disabled)
+	// CONFIG2L
+	#pragma config PWRT = OFF       // Power-up Timer Enable bit (PWRT disabled)
+	#pragma config BOR = ON_ACTIVE  // Brown-out Reset Enable bits (Brown-out Reset enabled in hardware only and disabled in Sleep mode (SBOREN is disabled))
+	#pragma config BORV = 3         // Brown-out Reset Voltage bits (Minimum setting)
+	#pragma config VREGEN = ON      // USB Voltage Regulator Enable bit (USB voltage regulator enabled)
+	// CONFIG2H
+	#pragma config WDT = OFF        // Watchdog Timer Enable bit (WDT disabled (control is placed on the SWDTEN bit))
+	#pragma config WDTPS = 32768    // Watchdog Timer Postscale Select bits (1:32768)
+	// CONFIG3H
+	#pragma config CCP2MX = OFF      // CCP2 MUX bit (CCP2 input/output is multiplexed with RB3)
+	#pragma config PBADEN = OFF     // PORTB A/D Enable bit (PORTB<4:0> pins are configured as digital I/O on Reset)
+	#pragma config LPT1OSC = OFF    // Low-Power Timer 1 Oscillator Enable bit (Timer1 configured for higher power operation)
+	#pragma config MCLRE = OFF      // MCLR Pin Enable bit (RE3 input pin enabled; MCLR pin disabled)
+	// CONFIG4L
+	#pragma config STVREN = ON      // Stack Full/Underflow Reset Enable bit (Stack full/underflow will cause Reset)
+	#pragma config LVP = OFF        // Single-Supply ICSP Enable bit (Single-Supply ICSP disabled)
+	#pragma config XINST = OFF      // Extended Instruction Set Enable bit (Instruction set extension and Indexed Addressing mode disabled (Legacy mode))
+	#pragma config   DEBUG=OFF
+#elif defined(__18F25K50)
+	// CONFIG1L
+	#pragma config PLLSEL = PLL3X   // PLL Selection (3x clock multiplier)
+	#pragma config CFGPLLEN = ON    // PLL Enable Configuration bit (PLL Enabled)
+	#pragma config CPUDIV = NOCLKDIV// CPU System Clock Postscaler (CPU uses system clock (no divide))
+	#pragma config LS48MHZ = SYS48X8// Low Speed USB mode with 48 MHz system clock (System clock at 48 MHz, USB clock divider is set to 8)
+	// CONFIG1H
+	#pragma config FOSC = INTOSCIO//HSM   // Oscillator Selection (HS oscillator, medium power 4MHz to 16MHz)
+	#pragma config PCLKEN = OFF      // Primary Oscillator Shutdown (Primary oscillator enabled)
+	#pragma config FCMEN = OFF      // Fail-Safe Clock Monitor (Fail-Safe Clock Monitor disabled)
+	#pragma config IESO = OFF       // Internal/External Oscillator Switchover (Oscillator Switchover mode disabled)
+	// CONFIG2L
+	#pragma config nPWRTEN = OFF    // Power-up Timer Enable (Power up timer disabled)
+	#pragma config BOREN = SBORDIS  // Brown-out Reset Enable (BOR enabled in hardware (SBOREN is ignored))
+	#pragma config BORV = 190       // Brown-out Reset Voltage (BOR set to 1.9V nominal)
+	#pragma config nLPBOR = OFF     // Low-Power Brown-out Reset (Low-Power Brown-out Reset disabled)
+	// CONFIG2H
+	#pragma config WDTEN = OFF       // Watchdog Timer Enable bits (WDT enabled in hardware (SWDTEN ignored))
+	#pragma config WDTPS = 32768    // Watchdog Timer Postscaler (1:32768)
+	// CONFIG3H
+	#pragma config CCP2MX = RB3     // CCP2 MUX bit (CCP2 input/output is multiplexed with RB3)
+	#pragma config PBADEN = OFF      // PORTB A/D Enable bit (PORTB<5:0> pins are configured as DIO on Reset)
+	#pragma config T3CMX = RC0      // Timer3 Clock Input MUX bit (T3CKI function is on RC0)
+	#pragma config SDOMX = RB3      // SDO Output MUX bit (SDO function is on RB3)
+	#pragma config MCLRE = OFF       // Master Clear Reset Pin Enable (MCLR pin enabled; RE3 input disabled)
+	// CONFIG4L
+	#pragma config STVREN = ON      // Stack Full/Underflow Reset (Stack full/underflow will cause Reset)
+	#pragma config LVP = OFF         // Single-Supply ICSP Enable bit (Single-Supply ICSP enabled if MCLRE is also 1)
+	#pragma config ICPRT = OFF      // Dedicated In-Circuit Debug/Programming Port Enable (ICPORT disabled)
+	#pragma config XINST = OFF      // Extended Instruction Set Enable bit (Instruction set extension and Indexed Addressing mode disabled)
 #endif
+
+#if defined(__18F2450)
+	#pragma config BORV=21
+#endif
+// CONFIG5L (default)
+#pragma config CP0 = OFF, CP1 = OFF, CP2 = OFF, CP3 = OFF // Code Protection off
+// CONFIG5H (default)
+#pragma config CPB = OFF, CPD = OFF // Boot Block & EEPROM Code Protection off
+// CONFIG6L (default)
+#pragma config WRT0 = OFF, WRT1 = OFF, WRT2 = OFF, WRT3 = OFF  // Write Protection off
+// CONFIG6H (default)
+#pragma config WRTC = OFF, WRTB = OFF, WRTD = OFF //Write Protection off
+// CONFIG7L (default)
+#pragma config EBTR0 = OFF, EBTR1 = OFF, EBTR2 = OFF, EBTR3 = OFF// Table Read Protection off
+// CONFIG7H (default)
+#pragma config EBTRB = OFF      // Boot Block Table Read Protection bit off
+
 #pragma code low_vector=0x8
 void low_interrupt (void)
 {
@@ -102,7 +121,7 @@ static void InitializeUSART()
     TRISC &= 0xBF; // Set RC6 as an output
     TRISC |= 0x80; // Set RC7 as an input
     RCSTA   = 0x90; // Enable serial port, enable receiver
-    TXSTA   = 0x24; // Asynch, TSR empty, BRGH=1
+    TXSTA   = 0x24; // Async, TSR empty, BRGH=1
 
     // Baud rate formula for BRG16=1, BRGH=1: Baud Rate = Fosc/(4 (n + 1)),
     // or n = (Fosc / (4 * BaudRate)) - 1
@@ -121,35 +140,26 @@ static void InitializeUSART()
 }
 #endif
 
-
+//extern byte progmode;
 // Entry point of the firmware
 void main(void)
 {
-	// Set all I/O pins to digital
-    ADCON1 |= 0x0F;
-    
-	// Initialize USB
-    UCFG = 0x14; // Enable pullup resistors; full speed mode
-
-    deviceState = DETACHED;
-    remoteWakeup = 0x00;
-    currentConfiguration = 0x00;
-
 	// Call user initialization function
 	UserInit();
-	
+	// Initialize USB
+	UCFG = 0x14; // Enable pullup resistors; full speed mode
+	deviceState = DETACHED;
+	remoteWakeup = 0x00;
+	currentConfiguration = 0x00;
 	while(1)
 	{
 		// Ensure USB module is available
 		EnableUSBModule();
-
 		// As long as we aren't in test mode (UTEYE), process
 		// USB transactions.
 		if(UCFGbits.UTEYE != 1)
 		ProcessUSBTransactions();
-
 		// Application specific tasks
 		ProcessIO();
-        
     }
 }

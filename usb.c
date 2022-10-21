@@ -819,7 +819,7 @@ void SetupStage(void)
     HIDPostProcess = 0; // Assume standard request until know otherwise
     wCount = 0;         // No bytes transferred
 
-    // See if this is a standard (as definded in USB chapter 9) request
+    // See if this is a standard (as defined in USB chapter 9) request
     ProcessStandardRequest();
 
     // See if the HID class can do something with it.
