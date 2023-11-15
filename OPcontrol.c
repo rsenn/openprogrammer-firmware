@@ -114,8 +114,12 @@ software SPI
 #define CKlat 		LATB
 #define CKport 		PORTB
 #define CKtris 		TRISB
+#ifndef CK_bit
 #define CK_bit 		LATBbits.LATB6
+#endif
+#ifndef CKdir_bit
 #define CKdir_bit	TRISBbits.TRISB6
+#endif
 #define CK0()  		CK_bit=0
 #define CK1()  		CK_bit=1
 #define CKin() 		CKdir_bit=1
@@ -127,10 +131,10 @@ software SPI
 #define PGMlat 		LATB
 #define PGMport 	PORTB
 #define PGMtris 	TRISB
-#define PGM_bit 	LATBbits.LATB7
+#define PGM_PIN 	LATBbits.LATB7
 #define PGMdir_bit	TRISBbits.TRISB7
-#define PGM0()  	PGM_bit=0
-#define PGM1()  	PGM_bit=1
+#define PGM0()  	PGM_PIN=0
+#define PGM1()  	PGM_PIN=1
 #define PGMin() 	PGMdir_bit=1
 #define PGMout()	PGMdir_bit=0
 #define A2			LATBbits.LATB5
@@ -362,8 +366,8 @@ void ParseCommands(void)
 	if (RXptr<number_of_bytes_read&&!IN_pending){
 		LED1=1;
 		switch(receive_buffer[RXptr]){
-			case NOP:		//NOP
-				TXins(NOP);
+			case NO_OP:		//NO_OP
+				TXins(NO_OP);
 				break;
 			case PROG_RST:		//Reset, 10 bytes [32us]
 				TXins(PROG_RST);
@@ -616,7 +620,7 @@ void ParseCommands(void)
 					Ddir_bit=(receive_buffer[RXptr]&2)?1:0;
 					CK_bit=(receive_buffer[RXptr]&4)?1:0;
 					CKdir_bit=(receive_buffer[RXptr]&8)?1:0;
-					PGM_bit=(receive_buffer[RXptr]&16)?1:0;
+					PGM_PIN=(receive_buffer[RXptr]&16)?1:0;
 					PGMdir_bit=(receive_buffer[RXptr]&32)?1:0;
 				}
 				else{
@@ -634,7 +638,7 @@ void ParseCommands(void)
 				if(Ddir_bit) i|=2;
 				if(PORTBbits.RB6) i|=4;	//CK_bit
 				if(CKdir_bit) i|=8;
-				if(PORTBbits.RB7) i|=16;	//PGM_bit
+				if(PORTBbits.RB7) i|=16;	//PGM_PIN
 				if(PGMdir_bit) i|=32;
 				TXins(i);
 				break;
@@ -1683,7 +1687,7 @@ void ParseCommands(void)
 					BRA 	ciclo_r189
 					_endasm
 					D0();
-					CKpulse();			//NOP + wait XX us
+					CKpulse();			//NO_OP + wait XX us
 					CKpulse();
 					CKpulse();
 					CK1();
@@ -1744,7 +1748,7 @@ void ParseCommands(void)
 					BRA 	ciclo_r190
 					_endasm
 					D0();
-					CKpulse();			//NOP + wait XX us
+					CKpulse();			//NO_OP + wait XX us
 					CKpulse();
 					CKpulse();
 					CK1();
@@ -2485,7 +2489,7 @@ void ParseCommands(void)
 					receive_buffer[RXptr+1]=FLUSH;
 				}
 				break;
-			case SIX_LONG:				//Core instruction (PIC24) 0000, 24 bit data + 2 NOP [97us]
+			case SIX_LONG:				//Core instruction (PIC24) 0000, 24 bit data + 2 NO_OP [97us]
 				TXins(SIX_LONG);
 				if(RXptr+3<number_of_bytes_read){
 					INTCONbits.GIE=0;
@@ -2527,7 +2531,7 @@ void ParseCommands(void)
 					receive_buffer[RXptr+1]=FLUSH;
 				}
 				break;
-			case SIX_LONG5:				//Core instruction (PIC24) 0000, 24 bit data + 5 NOP [275us]
+			case SIX_LONG5:				//Core instruction (PIC24) 0000, 24 bit data + 5 NO_OP [275us]
 				TXins(SIX_LONG5);
 				if(RXptr+3<number_of_bytes_read){
 					INTCONbits.GIE=0;
@@ -2570,7 +2574,7 @@ void ParseCommands(void)
 				}
 				break;
 			//Core instruction (PIC24) 0000, 24 bit data * N
-			//N[7:6] = extra NOP after each SIX
+			//N[7:6] = extra NO_OP after each SIX
 			//[(7+38*N(5:0)+28*N(7:6)*N(5:0))us]
 			case SIX_N:
 				TXins(SIX_N);
@@ -2654,7 +2658,7 @@ void ParseCommands(void)
 				TXins(HIBYTE(d));
 				TXins(LOBYTE(d));
 				break;
-			case ICSP_NOP:				//NOP Core instruction (PIC24) 0000, 24 bit data [31.5us]
+			case ICSP_NOP:				//NO_OP Core instruction (PIC24) 0000, 24 bit data [31.5us]
 				TXins(ICSP_NOP);
 				INTCONbits.GIE=0;
 				Ddir_bit=0;		//Output
